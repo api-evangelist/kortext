@@ -1,0 +1,153 @@
+generated: '2026-08-23'
+method: derived
+source: openapi/kortext-labs-api-openapi.json
+note: >-
+  Derived from the 39 component schemas and the id-reference fields they carry. Kortext publishes
+  no object reference, so no id prefixes or domain descriptions could be searched — the graph below
+  is read purely from $ref links and from fields named *Id that name another entity. Identifiers
+  are opaque; the contract types most of them as string and does not state a format.
+entities:
+- name: Content
+  description: >-
+    A book, chapter or uploaded file on a student's Kortext shelf. The hub of the model — nearly
+    every other entity hangs off contentId.
+  key: contentId
+  schemas: [ContentPartDto, IndexedFileDto, ContentProcessingStatusDTO, ContentGroupDto, ContentConfidenceScoreDto]
+  relationships:
+  - has_many: ContentPart
+    via: contentId
+  - has_many: KnowledgeItem
+    via: contentId
+  - has_many: QuizSession
+    via: contentId
+  - has_many: Wisdom
+    via: contentId
+  - has_many: Podcast
+    via: contentId
+  - has_one: ContentConfidenceScore
+    via: contentId
+- name: ContentPart
+  description: A page or fragment of indexed content, the retrieval unit for chat and quizzing.
+  key: id
+  schema: ContentPartDto
+  fields: [id, contentId, pageNumber, pageId, contentType, contentText]
+  relationships:
+  - belongs_to: Content
+    via: contentId
+  - has_many: KnowledgeItem
+    via: contentPartId
+- name: KnowledgeItem
+  description: A named concept extracted from a content part; quiz coverage is measured against these.
+  key: id
+  schema: KnowledgeItemDto
+  fields: [id, name, description, contentPartId, contentId]
+  relationships:
+  - belongs_to: ContentPart
+    via: contentPartId
+  - belongs_to: Content
+    via: contentId
+  - has_many: QuizSessionQuestion
+    via: knowledgeItem
+- name: QuizSession
+  description: One quiz attempt over a piece of content, a URL or pasted text.
+  key: id
+  schemas: [CreateQuizSessionDto, CreateQuizSessionFromTextDto, CreateQuizSessionFromUrlDto, QuizSessionsDto, QuizSessionStatsDto, ContentQuizStatsDto]
+  relationships:
+  - belongs_to: Content
+    via: contentId
+  - belongs_to: User
+    via: userId
+  - has_many: QuizSessionQuestion
+    via: quizSessionId
+  - has_many: QuizAttempt
+    via: sessionId
+- name: QuizSessionQuestion
+  description: A generated question bound to a content part and a knowledge item.
+  key: id
+  schemas: [PublicQuizSessionQuestionDto, QuizSessionQuestionDto, QuizQuestionDto, PublicQuizQuestionDto]
+  relationships:
+  - belongs_to: QuizSession
+    via: quizSessionId
+  - has_one: ContentPart
+    via: contentPart
+  - has_one: KnowledgeItem
+    via: knowledgeItem
+  - has_many: QuizAnswer
+    via: answers
+- name: QuizAnswer
+  description: A candidate answer option. The public projection omits isCorrect.
+  key: id
+  schemas: [QuizAnswerDto, PublicQuizAnswerDto]
+  fields: [id, questionId, text, isCorrect]
+  relationships:
+  - belongs_to: QuizSessionQuestion
+    via: questionId
+- name: QuizAttempt
+  description: A learner's selection of an answer, amendable in place via PATCH.
+  key: id
+  schemas: [QuizAttemptDto, SetQuizAnswerAttemptDto, UpdateQuizAnswerAttemptDto]
+  fields: [id, sessionId, questionId, answerId, isCorrect]
+  relationships:
+  - belongs_to: QuizSession
+    via: sessionId
+  - belongs_to: QuizSessionQuestion
+    via: questionId
+  - belongs_to: QuizAnswer
+    via: answerId
+- name: Wisdom
+  description: An AI-extracted summary/insight document generated from a piece of content.
+  key: wisdomId
+  schemas: [WisdomDto, WisdomIdDto]
+  fields: [id, contentId, contentTitle, wisdom, createdAt]
+  relationships:
+  - belongs_to: Content
+    via: contentId
+- name: Podcast
+  description: A generated two-voice audio podcast (script plus audio blob) built from content.
+  key: id
+  schemas: [PodcastResponseDto, PaginatedPodcastResponse]
+  fields: [id, podcastMetadata, createdAt, script, audioBlobUrl, status, title]
+  relationships:
+  - belongs_to: Content
+    via: contentId (path parameter on creation)
+- name: IndexingTask
+  description: An asynchronous content-indexing job, polled by task_id.
+  key: task_id
+  schemas: [TaskStatusDto, ContentProcessingStatusDTO]
+  fields: [task_id, content_id, status, createdAt, updatedAt, processedParts, totalParts]
+  relationships:
+  - belongs_to: Content
+    via: content_id
+- name: ChatSession
+  description: >-
+    A conversational thread. Carried only as a sessionId on the request DTOs — the contract
+    declares no ChatSession resource, so an agent cannot list, read or delete one.
+  key: sessionId
+  schemas: [ChatAllRequest, ChatUserFilesRequest, ChatUploadedFileRequest]
+  relationships:
+  - belongs_to: User
+    via: bearer token subject
+- name: User
+  description: >-
+    Never modelled as a schema. Present only as userId on QuizSessionStatsDto and as the implicit
+    subject of the bearer JWT ("my-indexed-files", "wisdom IDs for a user").
+  key: userId
+  schemas: []
+relationships_summary:
+  entities: 12
+  edges: 24
+  root: Content
+observations:
+- >-
+  contentId is the universal join key. Every study artifact (quiz, wisdom, podcast, index, score)
+  is addressed through it, and the contract exposes no operation to list a user's content — the
+  caller is expected to already hold contentIds from the Kortext reader.
+- >-
+  The Chat and Tutor tag groups are the SAME 17 content operations mounted twice under
+  /chat/v1/content/* and /tutor/v1/content/*, with duplicated operationIds distinguished only by
+  the framework-generated path suffix. That is 34 of the 67 operations describing 17 behaviours.
+- >-
+  Naming is inconsistent across the model: camelCase (contentId, quizSessionId) dominates but the
+  task and visualisation schemas use snake_case (task_id, content_id).
+- >-
+  No identifier format is declared anywhere — no pattern, no example, no id prefix scheme.

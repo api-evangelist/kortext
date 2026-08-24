@@ -1,0 +1,56 @@
+generated: '2026-08-23'
+method: searched
+source: >-
+  registry.npmjs.org (search + package metadata), pypi.org, api.nuget.org, rubygems.org,
+  crates.io, packagist.org, and a search of every Kortext-published page for an SDK or client
+  library, 2026-08-23.
+official_count: 0
+note: >-
+  Kortext publishes NO first-party client libraries in any public package registry, and no SDK
+  page exists on any Kortext surface. Kortext does not run a developer program: there is no
+  developer portal, no API documentation and no GitHub organisation (github.com/kortext does not
+  exist), so there is nothing an SDK would be published against. This is a measured zero.
+packages: []
+rejected:
+- name: kortext
+  registry: npm
+  url: https://www.npmjs.com/package/kortext
+  version: 3.0.0
+  published: '2026-05-22'
+  official: false
+  reason: >-
+    NAME COLLISION, NOT KORTEXT. This npm package is "Autonomous AI agent runtime — TypeScript +
+    SQLite + React", authored by Eray Endes and sourced from github.com/erayendes/kortext. It has
+    no relationship to Kortext the higher-education content company. Recorded here so a later
+    round does not mistake it for a first-party SDK.
+registries_searched:
+- registry: npm
+  query: kortext
+  results: 1
+  official: 0
+- registry: pypi
+  query: kortext
+  status: 404
+  official: 0
+- registry: nuget
+  query: kortext
+  results: 0
+  official: 0
+- registry: rubygems
+  query: kortext
+  results: 0
+  official: 0
+- registry: crates.io
+  query: kortext
+  results: 0
+  official: 0
+- registry: packagist
+  query: kortext
+  results: 0
+  official: 0
+distribution:
+  note: >-
+    Kortext ships END-USER applications rather than developer packages — iOS (App Store id
+    1030400150), Android, Windows and macOS reader apps listed at
+    https://kortext.com/us/kortext-apps/. Those are consumer software, not client libraries, and
+    are deliberately not recorded as packages.

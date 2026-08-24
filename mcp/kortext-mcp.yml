@@ -1,0 +1,60 @@
+generated: '2026-08-23'
+method: probed
+source: >-
+  Certificate-transparency enumeration of *.kortext.com (api.certspotter.com), followed by direct
+  MCP JSON-RPC probes of every MCP-named host found, 2026-08-23.
+status: none
+note: >-
+  Kortext ships NO reachable MCP server, and no candidate tool list is derived here. Two
+  MCP-named hosts genuinely exist in Kortext's certificate transparency record —
+  kortext-mcp.nexus.demo.kortext.com and education-mcp.nexus.demo.kortext.com — which is real
+  evidence that Kortext is building MCP surfaces, but both resolve to an Azure Container Apps
+  ingress that answers "Azure Container App - Unavailable" with HTTP 404 on every MCP path
+  probed. Nothing is deployed behind them. They sit in a `demo` environment, they are not
+  advertised on any Kortext page, and no production equivalent resolves. Per the pipeline rule no
+  endpoint is claimed and no MCPServer pointer is emitted: a hostname in a certificate is not an
+  agent surface.
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: probed
+probes:
+- host: kortext-mcp.nexus.demo.kortext.com
+  resolves: 131.145.101.136
+  paths:
+  - {path: /mcp, method: POST, status: 404}
+  - {path: /sse, method: POST, status: 404}
+  - {path: /api/mcp, method: POST, status: 404}
+  - {path: /mcp/sse, method: POST, status: 404}
+  body: 'HTML: "Azure Container App - Unavailable"'
+- host: education-mcp.nexus.demo.kortext.com
+  resolves: 131.145.101.136
+  paths:
+  - {path: /mcp, method: POST, status: 404}
+  - {path: /sse, method: POST, status: 404}
+  - {path: /api/mcp, method: POST, status: 404}
+  - {path: /mcp/sse, method: POST, status: 404}
+  body: 'HTML: "Azure Container App - Unavailable"'
+registries_searched:
+- source: npm
+  query: kortext
+  official_mcp_packages: 0
+- source: Kortext website and support portal
+  result: No MCP server, connector, or agent integration is mentioned anywhere.
+related_hosts_observed:
+  note: >-
+    The same certificate-transparency sweep exposed a wider unreleased "nexus" platform —
+    api.nexus, api.chat.nexus, api.ingestion.nexus, api.notification.nexus, auth.nexus,
+    institution-admin.nexus and lm.nexus, all under demo.kortext.com. Every one returns a bare 404
+    from the shared ingress. Recorded as observation only; nothing is claimed about it.
+  hosts:
+  - api.nexus.demo.kortext.com
+  - api.chat.nexus.demo.kortext.com
+  - api.ingestion.nexus.demo.kortext.com
+  - api.notification.nexus.demo.kortext.com
+  - auth.nexus.demo.kortext.com
+  - institution-admin.nexus.demo.kortext.com
+  - lm.nexus.demo.kortext.com

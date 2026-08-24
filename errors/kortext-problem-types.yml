@@ -1,0 +1,81 @@
+generated: '2026-08-23'
+method: derived
+source: openapi/kortext-labs-api-openapi.json
+format: fastapi-detail
+note: >-
+  Derived from the 4xx/5xx responses declared in the Kortext Labs AI Study Tools OpenAPI. This is
+  NOT RFC 9457: no operation declares application/problem+json. Only the 422 Validation Error
+  carries a schema (HTTPValidationError -> ValidationError[], the standard FastAPI shape); every
+  other declared error response — 400, 403, 404, 500 — has a human description but NO content type
+  and NO schema, so an agent cannot parse the failure body from the contract. Kortext publishes no
+  public error reference page to enrich these from, so titles and remediation below are taken
+  verbatim from the spec's own response descriptions and are not embellished.
+envelope:
+  documented_shape: '{"detail": <string | ValidationError[]>}'
+  media_type: application/json
+  evidence: >-
+    Observed live on api-demo.labs.kortext.com — an unmatched route returns
+    {"detail":"Not Found"} with application/json. Declared in the spec only for 422.
+  rfc9457: false
+  problem_json_operations: 0
+counts:
+  operations_with_error_responses: 55
+  '400': 10
+  '403': 21
+  '404': 17
+  '422': 54
+  '500': 22
+problem_types:
+- code: '400'
+  title: Invalid request
+  schema: null
+  media_type: null
+  occurrences: 7
+  variants:
+  - Invalid URL or scraping failed (POST /tutor/v1/quiz/session/url)
+  - Invalid diagram type (POST /tutor/v1/content/visualise, POST /chat/v1/content/visualise)
+  remediation: Correct the request payload; the contract does not describe the response body.
+- code: '403'
+  title: Unauthorized access
+  schema: null
+  media_type: null
+  occurrences: 21
+  note: >-
+    The spec uses 403 where 401 would be conventional — the only security scheme is HTTPBearer
+    (JWT) and a missing or invalid token surfaces as 403 "Unauthorized access" on every secured
+    operation that declares an error set.
+  remediation: Present a valid bearer JWT for the Kortext account.
+- code: '404'
+  title: Not found
+  schema: null
+  media_type: null
+  occurrences: 17
+  variants:
+  - Quiz session not found
+  - Question or answer not found
+  - Content not found
+  - Content not found and no prompt provided
+  - Podcast not found
+  remediation: Verify the contentId / sessionId / podcastId belongs to the authenticated user.
+- code: '422'
+  title: Validation Error
+  schema: HTTPValidationError
+  media_type: application/json
+  occurrences: 54
+  body: '{"detail":[{"loc":[<string|int>...],"msg":"<string>","type":"<string>"}]}'
+  remediation: >-
+    The only machine-parseable error in the contract. Read detail[].loc for the offending
+    parameter path and detail[].type for the failing constraint.
+- code: '500'
+  title: Internal server error
+  schema: null
+  media_type: null
+  occurrences: 22
+  variants:
+  - Internal server error during deletion (DELETE /podcast/v1/podcasts/{podcast_id})
+  remediation: Retry; no error code or correlation identifier is declared in the contract.
+gaps:
+- No RFC 9457 application/problem+json anywhere in the contract.
+- 'No error code registry: 400/403/404/500 carry a description but no schema and no media type.'
+- No correlation/request-id field is documented on any error response.
+- No public error-reference documentation page exists to search against.

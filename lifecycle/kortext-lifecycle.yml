@@ -1,0 +1,76 @@
+generated: '2026-08-23'
+method: searched
+source: >-
+  https://kortext.com/blog/platform-updates/ (Kortext's dated product-update stream, 20 posts),
+  openapi/kortext-labs-api-openapi.json, and live probes of status.kortext.com and
+  trust.kortext.com, 2026-08-23.
+versioning:
+  scheme: path-prefix
+  current: v1
+  spec_build: 1.13.0.223565
+  policy_published: false
+  policy_url: null
+  note: >-
+    Every Kortext API path is pinned at v1 (/tutor/v1, /chat/v1, /podcast/v1, /api/v1,
+    /api/identity/v1, /api/content/v1, /api/genai/v1, /api/ai/v1, /api/assessments/v1,
+    /api/events/v1). No versioning policy document is published — the scheme is inferred from the
+    paths, not from a stated commitment.
+deprecation:
+  policy_published: false
+  policy_url: null
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  deprecated_operations: 0
+  evidence: >-
+    No operation in the published contract carries deprecated: true, and neither Sunset nor
+    Deprecation appears as a declared or observed response header. No deprecation policy page
+    exists. Because no policy is published, no `Deprecation` pointer is emitted.
+sla:
+  published: false
+  url: null
+  uptime_target: null
+  note: >-
+    No public SLA. Kortext sells to institutions under negotiated contracts; service commitments
+    are presumably contractual rather than published.
+status_page:
+  present: false
+  url: null
+  probes:
+  - url: https://status.kortext.com/
+    status: 0
+    result: DNS does not resolve
+  - url: https://trust.kortext.com/
+    status: 0
+    result: DNS does not resolve
+  - url: https://api-demo.labs.kortext.com/health/live
+    status: 200
+    result: >-
+      Returns {"status":"alive"}. GET /health/ready likewise returns {"status":"ready"} (HTTP
+      200). These are unauthenticated Kubernetes-style liveness/readiness probes on one non-production
+      host, not a public status page, and they are not advertised anywhere.
+  note: >-
+    Kortext operates a support portal (uk.support.kortext.com) but publishes no incident/status
+    page. No `StatusPage` pointer is emitted.
+release_cadence:
+  stream: https://kortext.com/blog/platform-updates/
+  frequency: roughly monthly to six-weekly product updates
+  scope: >-
+    Product/feature announcements for the study, acquire, adopt, IQ and insights platforms and the
+    mobile/desktop apps. They are NOT API release notes — no endpoint, schema or breaking-change
+    detail appears in them.
+  cross_ref: changelog/kortext-changelog.yml
+support:
+  portal: https://uk.support.kortext.com/s/
+  portal_us: https://support.na1.kortext.com/s/
+  contact: https://kortext.com/us/talk-to-us/
+  note: >-
+    The support portal is a Salesforce Experience Cloud site that renders entirely client-side; a
+    plain HTTP fetch of any article returns a loading shell, so the LTI and integration
+    documentation it holds is not machine-readable.
+gaps:
+- No versioning policy.
+- No deprecation policy and no Sunset/Deprecation headers.
+- No public SLA.
+- No status or incident page.
+- Product updates exist but no API changelog.

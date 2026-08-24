@@ -1,23 +1,206 @@
 aid: kortext
 name: Kortext
-description: 'Kortext is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: Kortext is a UK-headquartered digital learning and student engagement company, founded in
+  2013 and led by CEO James Gray, that supplies etextbooks, course content, AI study tools and learning
+  analytics to higher education institutions in the UK, US, Ireland, Australia and the Middle East. Its
+  platform family covers content delivery and reading (Kortext study, read.kortext.com), the AI-assisted
+  study layer (Kortext study+, Kortext IQ), teaching and reading-list tools (Kortext teach, KeyLinks),
+  library acquisition workflows (Kortext acquire), engagement analytics (Kortext insights) and the unified
+  Kortext fusion content and data layer. Publisher partners include Pearson, Wiley, McGraw Hill, Taylor
+  & Francis, Oxford University Press and Palgrave, and in 2025 Follett Higher Education moved its North
+  American ebook delivery onto Kortext. Institutional integration runs over 1EdTech LTI 1.1 and LTI 1.3
+  (including Deep Linking) into Blackboard, Moodle, Canvas and other VLEs, plus EDI and API integration
+  with library management systems such as Ex Libris Alma. Kortext does not operate a public developer
+  portal; its production APIs are authenticated and undocumented publicly, and the only openly published
+  machine-readable contract is the OpenAPI 3.1 description of its AI "labs" study-tools API.
 url: https://raw.githubusercontent.com/api-evangelist/kortext/refs/heads/main/apis.yml
+image: https://kortext.com/us/wp-content/uploads/2024/07/Kortext-White-EST-logo-transparent-980x255.png
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
 specificationVersion: '0.20'
 created: '2026-08-23'
 modified: '2026-08-23'
 tags:
 - Company
-apis: []
+- Education
+- EdTech
+- Higher Education
+- Digital Textbooks
+- Learning Analytics
+- Artificial Intelligence
+- Content Delivery
+- LTI
+- Libraries
+- Student Engagement
+- Publishing
+tags_raw:
+- education
+- edtech
+- higher-education
+- digital-textbooks
+- learning-analytics
+- artificial-intelligence
+- content-delivery
+- lti
+- libraries
+- student-engagement
+- publishing
+apis:
+- name: Kortext Labs AI Study Tools API
+  description: FastAPI-generated service ("labsapi") behind Kortext's AI study features — quiz sessions
+    generated from a book, a URL or pasted text; content indexing and retrieval-augmented chat over a
+    student's Kortext bookshelf and uploaded files; flashcards, mnemonics, idea compass, reading plans,
+    Mermaid visualisations and "extract wisdom" summarisation; podcast generation from content; and per-content
+    study analytics (total time, confidence score, knowledge items, quiz session stats). 67 operations
+    across Quiz, Content, Chat, Reading List, Podcast, Labs and Health Checks tags, secured with HTTP
+    bearer tokens. The OpenAPI 3.1.0 description is served unauthenticated from Kortext's own labs demo
+    and QA hosts; the operations themselves are bearer-gated.
+  humanURL: https://api-demo.labs.kortext.com/docs
+  baseURL: https://api-demo.labs.kortext.com
+  tags:
+  - Artificial Intelligence
+  - Education
+  - Higher Education
+  - Student Engagement
+  - Learning Analytics
+  tags_raw:
+  - artificial-intelligence
+  - education
+  - higher-education
+  - student-engagement
+  - learning-analytics
+  properties:
+  - type: OpenAPI
+    url: openapi/kortext-labs-api-openapi.json
+  - type: Documentation
+    url: https://api-demo.labs.kortext.com/docs
+  - type: APIReference
+    url: https://api-demo.labs.kortext.com/redoc
+  - type: Authentication
+    url: authentication/kortext-authentication.yml
+  - type: ErrorCatalog
+    url: errors/kortext-problem-types.yml
+  - type: DataModel
+    url: data-model/kortext-data-model.yml
+  - type: Conventions
+    url: conventions/kortext-conventions.yml
+  - type: Overlay
+    url: overlays/kortext-labs-api-overlay.yaml
+- name: Kortext VLE / LTI Integration API
+  description: The institution-facing integration surface behind vle.kortext.com — 1EdTech LTI 1.1 launch
+    and LTI 1.3 Deep Linking endpoints that place Kortext content and KeyLinks reading lists inside Blackboard,
+    Moodle, Canvas and other VLEs, plus authenticated REST resources for books, consumers (institutions),
+    journeys and KeyLinks lists. Endpoint paths are published in the application's own runtime configuration
+    at /assets/config.json; the resources themselves return 401 without an institutional token and Kortext
+    publishes no OpenAPI for them.
+  humanURL: https://kortext.com/blog/platform-updates/how-we-integrate-with-your-workflow/
+  baseURL: https://vle.kortext.com
+  tags:
+  - LTI
+  - Education
+  - Higher Education
+  - Libraries
+  - Content Delivery
+  tags_raw:
+  - lti
+  - education
+  - higher-education
+  - libraries
+  - content-delivery
+  properties:
+  - type: Documentation
+    url: https://kortext.com/blog/platform-updates/how-we-integrate-with-your-workflow/
+  - type: Conformance
+    url: conformance/kortext-conformance.yml
+- name: Kortext Platform API
+  description: The authenticated application API behind app.kortext.com serving the Kortext study reader
+    and companion apps — identity, content, upload, cover, features, assessments, events and the genai
+    and study-tools paths. Base paths are published in Kortext's own front-end runtime configuration;
+    every resource requires a token issued by app.kortext.com/account/token and no public specification
+    or developer documentation is offered.
+  humanURL: https://app.kortext.com/identity/signin
+  baseURL: https://app.kortext.com
+  tags:
+  - Education
+  - Content Delivery
+  - Higher Education
+  - Digital Textbooks
+  tags_raw:
+  - education
+  - content-delivery
+  - higher-education
+  - digital-textbooks
+  properties:
+  - type: Login
+    url: https://app.kortext.com/identity/signin
+common:
+- type: DomainSecurity
+  url: security/kortext-domain-security.yml
+- type: Website
+  url: https://kortext.com/
+- type: Documentation
+  url: https://api-demo.labs.kortext.com/docs
+- type: APIReference
+  url: https://api-demo.labs.kortext.com/redoc
+- type: Support
+  url: https://uk.support.kortext.com/s/
+- type: Blog
+  url: https://kortext.com/us/news/
+- type: SignUp
+  url: https://app.kortext.com/identity/signup
+- type: Login
+  url: https://app.kortext.com/identity/signin
+- type: TermsOfService
+  url: https://kortext.com/us/website-terms-and-conditions/
+- type: PrivacyPolicy
+  url: https://kortext.com/us/privacy-policy/
+- type: Store
+  url: https://store.kortext.com/
+- type: DeveloperPortal
+  url: https://api-demo.labs.kortext.com/docs
+- type: GettingStarted
+  url: https://kortext.com/blog/platform-updates/how-we-integrate-with-your-workflow/
+- type: HelpCenter
+  url: https://support.na1.kortext.com/s/
+- type: Authentication
+  url: authentication/kortext-authentication.yml
+- type: Conventions
+  url: conventions/kortext-conventions.yml
+- type: ErrorCatalog
+  url: errors/kortext-problem-types.yml
+- type: DataModel
+  url: data-model/kortext-data-model.yml
+- type: Lifecycle
+  url: lifecycle/kortext-lifecycle.yml
+- type: Conformance
+  url: conformance/kortext-conformance.yml
+- type: Packages
+  url: packages/kortext-packages.yml
+- type: LLMsTxt
+  url: llms/kortext-llms.txt
+- type: Overlay
+  url: overlays/kortext-labs-api-overlay.yaml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Plans
+  url: plans/kortext-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/kortext-rate-limits.yml
+- type: ChangeLog
+  url: changelog/kortext-changelog.yml
+- type: ChangeLog
+  url: https://kortext.com/blog/platform-updates/
+- type: Accessibility
+  url: https://kortext.com/us/accessibility-commitment-statement/
+- type: CookiePolicy
+  url: https://kortext.com/us/cookie-policy/
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
-common:
-- type: Website
-  url: https://www.nasdaqprivatemarket.com/
+x-enrichment:
+  date: '2026-08-23'
+  status: enriched
+  artifacts_added: 19
+  pass: local-v1

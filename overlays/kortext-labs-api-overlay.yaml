@@ -1,0 +1,139 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Kortext Labs AI Study Tools API
+  version: 1.0.0
+extends: ../openapi/kortext-labs-api-openapi.json
+x-provenance:
+  generated: '2026-08-23'
+  method: generated
+  source: >-
+    Derived from openapi/kortext-labs-api-openapi.json (fetched verbatim from
+    https://api-demo.labs.kortext.com/openapi.json, HTTP 200, 2026-08-23) plus the API Evangelist
+    artifacts in this repository. This overlay records API Evangelist's OWN enhancements and is
+    never applied to the original spec; the original is preserved untouched in openapi/_original/.
+  note: >-
+    Every action below adds documentation or metadata that Kortext's FastAPI-generated spec omits.
+    No operation, parameter, schema or response is invented — the overlay only annotates what is
+    already there.
+actions:
+- target: $.info
+  description: >-
+    Add the description, contact, licence and terms metadata the generated spec omits entirely.
+    info carries only title "labsapi" and a build number.
+  update:
+    description: >-
+      The service behind Kortext's AI study features: quiz generation from content, a URL or
+      pasted text; content indexing and retrieval-augmented chat over a student's Kortext
+      bookshelf and uploaded files; flashcards, mnemonics, idea compass, reading plans, Mermaid
+      visualisations and extract-wisdom summarisation; podcast generation; and per-content study
+      analytics. Auth is HTTP bearer (JWT). ANNOTATION ADDED BY API EVANGELIST — not a Kortext
+      statement.
+    x-api-evangelist-note: >-
+      This contract is served from Kortext's labs demo and QA hosts. No production host serves it,
+      and Kortext publishes no developer documentation for it.
+- target: $
+  description: >-
+    Add the servers[] block the generated spec omits. FastAPI emits no servers[], so a client
+    cannot resolve a base URL from the contract alone. Both hosts observed serving this identical
+    document are recorded, flagged as non-production.
+  update:
+    servers:
+    - url: https://api-demo.labs.kortext.com
+      description: >-
+        Labs demo host — observed serving this exact document (HTTP 200, 84,874 bytes) on
+        2026-08-23. NON-PRODUCTION. Added by API Evangelist from the fetch location, not declared
+        by Kortext.
+    - url: https://api-qa.labs.kortext.com
+      description: >-
+        Labs QA host — serves a byte-identical copy of this document. NON-PRODUCTION. Added by API
+        Evangelist.
+- target: $
+  description: >-
+    Declare the tags the spec uses but never defines. Nine tag values appear on operations
+    (Chat, Content, Health Checks, Labs, Podcast, Quiz, Reading List, Test, podcast) and the
+    root tags[] array is absent, so no tag carries a description.
+  update:
+    tags:
+    - name: Quiz
+      description: Quiz session lifecycle — create a session from content, a URL or text; generate questions; submit and amend answer attempts.
+    - name: Content
+      description: Content indexing and AI study-artifact generation over an indexed piece of content.
+    - name: Chat
+      description: >-
+        Retrieval-augmented conversation over a student's whole shelf, a single content item or an
+        uploaded file, with streaming variants.
+    - name: Podcast
+      description: Two-voice AI podcast generation from a piece of content, with listing and deletion.
+    - name: Reading List
+      description: Streaming chat scoped to a reading list.
+    - name: Labs
+      description: Cross-cutting study analytics.
+    - name: Health Checks
+      description: Unauthenticated Kubernetes-style liveness and readiness probes.
+    - name: Test
+      description: Non-production test operations that should not be relied on by an integrator.
+- target: $.components.securitySchemes.HTTPBearer
+  description: Document where the bearer token comes from. The scheme declares the mechanism but not the issuer.
+  update:
+    description: >-
+      HTTP bearer JWT. Tokens are issued by the Kortext platform at
+      https://app.kortext.com/account/token (returns 401 unauthenticated). ANNOTATION ADDED BY API
+      EVANGELIST from Kortext's published front-end runtime configuration at
+      https://vle.kortext.com/assets/config.json — Kortext does not document this in the contract.
+- target: $.paths['/podcast/v1/content/{content_id}/podcast'].post
+  description: >-
+    Flag the reversibility of the most expensive write in the API. See
+    conventions/kortext-conventions.yml.
+  update:
+    x-reversibility:
+      reversible: true
+      reversal_operation_id: delete_podcast_podcast_v1_podcasts__podcast_id__delete
+      reversal_path: DELETE /podcast/v1/podcasts/{podcast_id}
+      window: null
+      window_source: null
+      grade: documented
+      note: >-
+        A reversal path exists but Kortext states no window and no retention policy. Added by API
+        Evangelist; no window is asserted because none is published.
+- target: $.paths['/tutor/v1/content/{content_id}/index'].post
+  description: Flag the reversibility of content indexing.
+  update:
+    x-reversibility:
+      reversible: true
+      reversal_operation_id: delete_index_tutor_v1_content__content_id__delete_index_post
+      reversal_path: POST /tutor/v1/content/{content_id}/delete-index
+      window: null
+      window_source: null
+      grade: documented
+- target: $.paths['/tutor/v1/quiz/session'].post
+  description: Record that no idempotency key is available on this write, per conventions/.
+  update:
+    x-idempotency:
+      supported: false
+      header: null
+      note: >-
+        No header parameters are declared anywhere in this contract. A retried request creates a
+        second quiz session. Added by API Evangelist.
+- target: $.paths['/chat/v1/all/stream'].post
+  description: >-
+    Record the streaming behaviour the contract cannot express. The 200 is typed application/json
+    but the operation streams.
+  update:
+    x-streaming:
+      streams: true
+      declared_media_type: application/json
+      note: >-
+        This operation and its five siblings (/chat/v1/user/shelf/stream, /chat/v1/files/stream,
+        /chat/v1/uploaded-file/stream, /chat/v1/test/stream, /chat/v1/reading-list/stream) stream
+        their response. The frame format is not described in the contract, so an agent cannot
+        consume them from the spec alone. Added by API Evangelist.
+- target: $.paths['/tutor/v1/content/ws/{content_id}'].post
+  description: Record that this operation implies a WebSocket the OpenAPI document cannot describe.
+  update:
+    x-transport-note: >-
+      Named "ws" and declared as a plain POST. Whether a WebSocket upgrade is involved cannot be
+      determined from the contract. Added by API Evangelist.
+- target: $.paths['/chat/v1/test/hello'].get
+  description: Mark the test operations so an integrator does not build on them.
+  update:
+    x-stability: test-only

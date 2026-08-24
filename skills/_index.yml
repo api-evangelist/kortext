@@ -1,0 +1,42 @@
+generated: '2026-08-23'
+method: generated
+source: >-
+  Authored by API Evangelist from openapi/kortext-labs-api-openapi.json. Kortext publishes no
+  AGENTS.md, no skills, and no developer documentation — a search of kortext.com, the support
+  portals and the labs host found nothing to save verbatim, so these are generated. Every
+  operationId referenced was grepped out of the spec.
+api: Kortext Labs AI Study Tools API
+spec: openapi/kortext-labs-api-openapi.json
+caveat: >-
+  Access to this API is NOT self-serve. Kortext runs no developer program and issues no public API
+  keys; an institutional bearer JWT is required. Both skills say so in their preamble, and neither
+  should be run against Kortext without one.
+skills:
+- name: kortext-quiz-a-textbook
+  file: kortext-quiz-a-textbook.md
+  description: >-
+    Generate a quiz from Kortext content, a URL or pasted text; walk a learner through questions;
+    record and amend answers; read back confidence score and knowledge-item coverage.
+  operations: 11
+  tags: [Quiz, Content, Labs]
+- name: kortext-study-artifacts-from-content
+  file: kortext-study-artifacts-from-content.md
+  description: >-
+    Turn indexed Kortext content into flashcards, mnemonics, an idea compass, a reading plan, a
+    Mermaid visualisation, an extracted-wisdom summary or a two-voice AI podcast, and manage what
+    persists afterwards.
+  operations: 16
+  tags: [Content, Podcast, Chat]
+not_covered:
+  reason: >-
+    The Chat tag group is the same 17 content operations mounted a second time under /chat/v1/*,
+    plus six streaming operations whose frame format the contract does not describe. A skill cannot
+    be grounded in a response shape the spec does not state, so no chat skill is written.
+  operations:
+  - chat_all_chat_v1_all_post
+  - chat_all_stream_chat_v1_all_stream_post
+  - chat_user_shelf_chat_v1_user_shelf_post
+  - chat_user_shelf_stream_chat_v1_user_shelf_stream_post
+  - chat_stream_chat_v1_files_stream_post
+  - chat_stream_chat_v1_uploaded_file_stream_post
+  - chat_all_stream_chat_v1_reading_list_stream_post

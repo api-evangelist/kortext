@@ -1,0 +1,35 @@
+generated: '2026-08-23'
+method: searched
+source: >-
+  https://kortext.com/us/ (full navigation and footer), https://kortext.com/us/talk-to-us/,
+  https://kortext.com/us/contact-us/, https://kortext.com/us/our-platforms/, and direct probes of
+  https://kortext.com/us/pricing/ and https://kortext.com/us/plans/, 2026-08-23.
+plan_count: 0
+pricing_model: enterprise-contact-only
+note: >-
+  Kortext publishes NO plans and NO prices for any of its platforms. It sells institutionally —
+  universities, colleges, publishers and library consortia buy under negotiated agreements — and
+  every commercial route on the site funnels to a "Talk to us" enquiry form. There is no
+  self-serve signup for the platform, no free tier, no API pricing, and no rate-card of any kind.
+  This is an honest zero, not a gap in the search.
+evidence:
+- url: https://kortext.com/us/pricing/
+  status: 404
+- url: https://kortext.com/us/talk-to-us/
+  status: 200
+  note: The site's single commercial call to action — an enquiry form, not a price.
+- url: https://kortext.com/us/our-platforms/
+  status: 200
+  note: Ten named platforms, none with a published price.
+plans: []
+adjacent_commerce:
+  storefront: https://store.kortext.com/
+  note: >-
+    store.kortext.com sells individual etextbooks to students at per-title prices set by the
+    publishers. That is retail book pricing, not a plan or an API tier, and it is recorded here
+    only so it is not mistaken for one.
+api_pricing:
+  published: false
+  note: >-
+    No API is offered commercially. The Labs AI study-tools API whose OpenAPI is published is an
+    internal product surface, not a sold API product.

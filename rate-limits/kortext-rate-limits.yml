@@ -1,0 +1,36 @@
+generated: '2026-08-23'
+method: searched
+source: >-
+  openapi/kortext-labs-api-openapi.json, live unauthenticated responses from
+  https://api-demo.labs.kortext.com and https://vle.kortext.com, and a search of every
+  Kortext-published surface for a limits/throttling statement, 2026-08-23.
+limit_count: 0
+note: >-
+  Kortext documents no rate limits anywhere. The published contract declares no 429 response on any
+  of its 67 operations and no header parameters at all. Live unauthenticated responses from
+  api-demo.labs.kortext.com carry no X-RateLimit-*, RateLimit-* or Retry-After header. Because
+  there is no developer documentation, there is nothing to search — this zero is measured, not
+  assumed. Note that this API fronts expensive generative operations (podcast synthesis, quiz
+  generation, document indexing), so the absence of a documented limit is a real integration
+  hazard rather than a formality.
+limits: []
+response_headers:
+  observed: []
+  declared: []
+  probe:
+  - url: https://api-demo.labs.kortext.com/health/live
+    status: 200
+    rate_limit_headers: none
+  - url: https://api-demo.labs.kortext.com/podcast/v1/podcasts
+    status: 403
+    body: '{"detail":"Not authenticated"}'
+    rate_limit_headers: none
+status_on_exhaustion: undocumented
+declared_429_operations: 0
+edge_behaviour:
+  gateway: Azure Application Gateway WAF (Prevention mode)
+  evidence: >-
+    Every /swagger* path on every Kortext host returns HTTP 403 with a Kortext-branded error page
+    carrying the ops marker "Request blocked by the Application Gateway WAF (Prevention mode)" and
+    reference KX-403. This is a WAF path block, not a rate limit, but it is the only throttling or
+    blocking behaviour Kortext exposes to an unauthenticated caller.

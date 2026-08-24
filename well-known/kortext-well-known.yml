@@ -1,0 +1,167 @@
+generated: '2026-08-23'
+method: probed
+source: >-
+  Direct HTTP probes of every /.well-known/ path on each Kortext host reachable without credentials
+  (kortext.com, app.kortext.com, vle.kortext.com, read.kortext.com, api-demo.labs.kortext.com),
+  2026-08-23.
+note: >-
+  NOTHING WAS FOUND. Kortext serves no /.well-known/ document on any host. Three distinct false-hit
+  shapes were recorded and rejected: (1) kortext.com 301s every /.well-known/* path to the /us/
+  marketing homepage, which then answers 200 with HTML — a soft-404, not a document; (2)
+  read.kortext.com and vle.kortext.com are Angular single-page apps whose catch-all route answers
+  200 text/html with the identical application shell (39,564 and 12,128 bytes respectively) for
+  EVERY path probed, including /openapi.json, /graphql and /.well-known/agent-card.json — the
+  dominant false positive on this probe and explicitly not a document; (3) app.kortext.com 302s
+  every path to its identity/sign-in flow. The labs API host answers an honest JSON
+  {"detail":"Not Found"} 404. No WellKnown and no SecurityTxt pointer is emitted, because no path
+  returned a real document.
+hosts:
+- host: kortext.com
+  note: WordPress marketing site; every /.well-known/* path 301s to https://kortext.com/us/ (soft-404).
+  documents:
+  - path: /.well-known/security.txt
+    status: 301
+    file: null
+  - path: /.well-known/openid-configuration
+    status: 301
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 301
+    file: null
+  - path: /.well-known/oauth-protected-resource
+    status: 301
+    file: null
+  - path: /.well-known/api-catalog
+    status: 301
+    file: null
+  - path: /.well-known/ai-plugin.json
+    status: 301
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 301
+    file: null
+  - path: /.well-known/agent.json
+    status: 301
+    file: null
+- host: app.kortext.com
+  note: Kortext study application; every /.well-known/* path 302s to the identity sign-in flow.
+  documents:
+  - path: /.well-known/security.txt
+    status: 302
+    file: null
+  - path: /.well-known/openid-configuration
+    status: 302
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 302
+    file: null
+  - path: /.well-known/oauth-protected-resource
+    status: 302
+    file: null
+  - path: /.well-known/api-catalog
+    status: 302
+    file: null
+  - path: /.well-known/ai-plugin.json
+    status: 302
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 302
+    file: null
+  - path: /.well-known/agent.json
+    status: 302
+    file: null
+- host: vle.kortext.com
+  note: >-
+    Angular SPA. Returns 200 text/html with the identical 12,128-byte application shell for every
+    path probed. Recorded as a miss, not a hit.
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: null
+  - path: /.well-known/openid-configuration
+    status: 200
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: null
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    file: null
+  - path: /.well-known/api-catalog
+    status: 200
+    file: null
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 200
+    file: null
+  - path: /.well-known/agent.json
+    status: 200
+    file: null
+  - path: /.well-known/jwks.json
+    status: 200
+    file: null
+- host: read.kortext.com
+  note: >-
+    Angular SPA. Returns 200 text/html with the identical 39,564-byte application shell for every
+    path probed. Recorded as a miss, not a hit.
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: null
+  - path: /.well-known/openid-configuration
+    status: 200
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: null
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    file: null
+  - path: /.well-known/api-catalog
+    status: 200
+    file: null
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 200
+    file: null
+  - path: /.well-known/agent.json
+    status: 200
+    file: null
+- host: api-demo.labs.kortext.com
+  note: The one host that answers honestly — FastAPI returns {"detail":"Not Found"} 404 JSON.
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    file: null
+  - path: /.well-known/openid-configuration
+    status: 404
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    file: null
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+    file: null
+  - path: /.well-known/api-catalog
+    status: 404
+    file: null
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+  - path: /.well-known/agent.json
+    status: 404
+    file: null
+summary:
+  hosts_probed: 5
+  paths_probed: 41
+  documents_found: 0
+  security_txt: false
+  api_catalog: false
+  agent_card: false

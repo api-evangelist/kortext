@@ -1,0 +1,157 @@
+generated: '2026-08-23'
+method: derived
+source: >-
+  openapi/kortext-labs-api-openapi.json, plus the published front-end runtime configuration at
+  https://vle.kortext.com/assets/config.json and live unauthenticated probes of
+  https://app.kortext.com and https://vle.kortext.com (2026-08-23).
+scope: >-
+  Kortext publishes no developer documentation, so every convention below is read out of the one
+  machine-readable contract it does serve (the Labs AI study-tools OpenAPI) and out of observed
+  runtime behaviour. Where a convention is simply not expressed anywhere, that is recorded as
+  undocumented rather than guessed.
+auth:
+  style: bearer
+  scheme: HTTPBearer (http/bearer, bearerFormat JWT)
+  applied: per-operation
+  global_security: false
+  note: >-
+    The spec declares no root-level `security`; each secured operation carries its own
+    security block. 12 of 67 operations are unsecured (health checks, system-message getters,
+    /chat/v1/test/hello).
+  token_endpoint: https://app.kortext.com/account/token
+  token_endpoint_status: 401 unauthenticated (observed 2026-08-23)
+  cross_ref: authentication/kortext-authentication.yml
+idempotency:
+  supported: false
+  header: null
+  scope: null
+  retention: null
+  evidence: >-
+    No Idempotency-Key or equivalent header appears anywhere in the contract — the spec declares
+    ZERO header parameters across all 67 operations. 27 POST/PATCH/DELETE operations exist,
+    including expensive generative ones (podcast creation, quiz generation, content indexing), and
+    none offers a client-supplied request key.
+  agent_impact: >-
+    A retried POST /podcast/v1/content/{content_id}/podcast or POST /tutor/v1/quiz/session will
+    create a second artifact. No pointer of type Idempotency is emitted for this provider.
+pagination:
+  style: page-number
+  applies_to:
+  - GET /podcast/v1/podcasts
+  request_params:
+    page: {in: query, default: 1}
+    pageSize: {in: query, default: 10}
+  response_fields:
+  - items
+  - total
+  - page
+  - pageSize
+  - totalPages
+  response_schema: PaginatedPodcastResponse
+  note: >-
+    Only ONE of the 67 operations is paginated. Collection reads such as
+    GET /tutor/v1/quiz/sessions, GET /tutor/v1/content/tasks and
+    GET /tutor/v1/content/my-indexed-files declare no paging parameters and return unbounded
+    arrays.
+  other_surfaces: >-
+    vle.kortext.com publishes generic paging parameter NAMES in its runtime config
+    (pageNo, pageSize, page, query) but no contract states their semantics.
+field_expansion:
+  supported: false
+  sparse_fieldsets: false
+metadata:
+  user_defined_metadata: false
+request_id_tracing:
+  supported: false
+  header: null
+  evidence: No request-id, trace, or correlation header is declared or returned on any operation.
+versioning:
+  style: path-prefix
+  pattern: /{product}/v1/... (tutor, chat, podcast) plus a bare /v1/total-time
+  current: v1
+  spec_version: 1.13.0.223565 (info.version, a build number rather than an API version)
+  media_type_versioning: false
+  header_versioning: false
+  note: >-
+    The Kortext VLE and platform surfaces use the same convention —
+    /api/v1/..., /api/identity/v1, /api/content/v1, /api/genai/v1, /api/ai/v1,
+    /api/assessments/v1, /api/events/v1 — per https://vle.kortext.com/assets/config.json.
+error_envelope:
+  shape: '{"detail": <string | ValidationError[]>}'
+  rfc9457: false
+  cross_ref: errors/kortext-problem-types.yml
+rate_limit_signaling:
+  documented: false
+  headers_observed: []
+  status_on_exhaustion: unknown
+  cross_ref: rate-limits/kortext-rate-limits.yml
+content_negotiation:
+  request: application/json, multipart/form-data (file upload on chat-file and podcast creation)
+  response: application/json, text/event-stream (the six *ream* chat operations)
+  streaming: >-
+    Six operations stream (/chat/v1/all/stream, /chat/v1/user/shelf/stream,
+    /chat/v1/files/stream, /chat/v1/uploaded-file/stream, /chat/v1/test/stream,
+    /chat/v1/reading-list/stream). The contract types their 200 as application/json and does not
+    describe the stream frame format, so an agent cannot consume them from the spec alone.
+  websocket: >-
+    Two operations are named ws (POST /tutor/v1/content/ws/{content_id},
+    POST /chat/v1/content/ws/{content_id}) but are declared as ordinary POSTs; the OpenAPI
+    document cannot express the socket they imply.
+dry_run_mode:
+  supported: false
+  evidence: No preview/simulate/validate-only parameter appears on any write operation.
+reversibility:
+  grade: documented
+  rationale: >-
+    Reversal operations exist and are named in the contract, but Kortext states NO window for any
+    of them — there is no published documentation for this API at all, so no retention or
+    undo period can be cited. Per the rubric this is `documented` (reversal path present) and not
+    `verified` (reversal path + stated window). No window is asserted here, because inventing one
+    would be the one error in this artifact that could cost a user real work.
+  write_surfaces:
+  - operation: index_content_tutor_v1_content__content_id__index_post
+    action: Index a piece of content for retrieval-augmented chat and quizzing
+    reversal: delete_index_tutor_v1_content__content_id__delete_index_post
+    reversal_path: POST /tutor/v1/content/{content_id}/delete-index
+    window: null
+    window_source: null
+    note: Mirrored on the chat surface as delete_index_chat_v1_content__content_id__delete_index_post.
+  - operation: create_podcast_podcast_v1_content__content_id__podcast_post
+    action: Generate an AI podcast (script + audio) from a piece of content
+    reversal: delete_podcast_podcast_v1_podcasts__podcast_id__delete
+    reversal_path: DELETE /podcast/v1/podcasts/{podcast_id}
+    window: null
+    window_source: null
+    note: >-
+      Returns 204. Whether the deletion is soft or hard, and whether audioBlobUrl is purged, is
+      not stated in the contract.
+  - operation: tutor_create_session_answer_attempt_tutor_v1_quiz_session_answer_post
+    action: Submit an answer attempt against a quiz question
+    reversal: tutor_create_session_answer_attempt_tutor_v1_quiz_session_answer__attempt_id__patch
+    reversal_path: PATCH /tutor/v1/quiz/session/answer/{attempt_id}
+    window: null
+    window_source: null
+    note: >-
+      An answer attempt can be amended in place rather than deleted. Because attempts feed
+      confidence scores and knowledge-item coverage, an agent cannot tell from the contract
+      whether amending an attempt recomputes the score.
+  irreversible:
+  - operation: tutor_create_session_tutor_v1_quiz_session_post
+    reason: No delete or cancel operation exists for a quiz session.
+  - operation: tutor_create_session_question_tutor_v1_quiz_session_question_post
+    reason: No delete operation exists for a generated question.
+  - operations:
+    - generate_mnemonics_tutor_v1_content_mnemonics_post
+    - generate_idea_compass_tutor_v1_content_idea_compass_post
+    - generate_reading_plan_tutor_v1_content_reading_plan_post
+    - generate_flashcards_tutor_v1_content_to_flashcards_post
+    - visualise_content_tutor_v1_content_visualise_post
+    reason: >-
+      Pure generative reads that return their artifact in the response body — nothing is persisted
+      that would need reversing, so reversibility does not apply to them.
+cross_links:
+  errors: errors/kortext-problem-types.yml
+  lifecycle: lifecycle/kortext-lifecycle.yml
+  authentication: authentication/kortext-authentication.yml
+  rate_limits: rate-limits/kortext-rate-limits.yml
+  data_model: data-model/kortext-data-model.yml

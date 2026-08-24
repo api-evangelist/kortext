@@ -1,0 +1,81 @@
+generated: '2026-08-23'
+method: searched
+source: https://kortext.com/blog/platform-updates/
+api_changelog: false
+note: >-
+  Kortext publishes a dated PRODUCT update stream, not an API changelog. The entries below are the
+  real, dated posts in the platform-updates category (20 in total, 12 most recent recorded here),
+  read from Kortext's own WordPress REST index. None of them names an endpoint, a schema change or
+  a breaking change, so they cannot be used to track the API surface — an integrator gets no signal
+  from this stream about the v1 paths changing.
+scheme:
+  versioning: path-prefix v1
+  current_version: v1
+  spec_build: 1.13.0.223565
+  entries_dated: true
+  breaking_changes_flagged: false
+  rss: https://kortext.com/blog/platform-updates/feed/
+cadence: roughly monthly to six-weekly
+entries:
+- date: '2026-08-03'
+  title: 'July 2026 app update: improving access, reading and reliability'
+  url: https://kortext.com/blog/platform-updates/july-2026-app-update-improving-access-reading-and-reliability/
+  breaking: false
+  api_relevant: false
+- date: '2026-07-17'
+  title: 'July 2026 platform update: advancing acquisition, analytics & Kortext IQ'
+  url: https://kortext.com/blog/platform-updates/july-2026-platform-update/
+  breaking: false
+  api_relevant: false
+- date: '2026-06-05'
+  title: Introducing Demand-Driven Acquisition (DDA) Manager for June 2026
+  url: https://kortext.com/blog/platform-updates/introducing-demand-driven-acquisition-dda-manager-for-june-2026/
+  breaking: false
+  api_relevant: false
+- date: '2026-04-24'
+  title: Greater visibility of accessibility features for April 2026
+  url: https://kortext.com/blog/platform-updates/greater-visibility-of-accessibility-features-for-april-2026/
+  breaking: false
+  api_relevant: false
+- date: '2026-03-13'
+  title: 'March 2026 product updates: smarter analytics and faster workflows'
+  url: https://kortext.com/blog/platform-updates/march-2026-product-updates-smarter-analytics-and-faster-workflows/
+  breaking: false
+  api_relevant: false
+- date: '2026-01-30'
+  title: 'Advanced searches & more: updates to acquire'
+  url: https://kortext.com/blog/platform-updates/advanced-searches-more-updates-to-acquire/
+  breaking: false
+  api_relevant: false
+- date: '2025-12-19'
+  title: Read aloud now available on the Kortext Mac app
+  url: https://kortext.com/blog/platform-updates/read-aloud-now-available-on-the-kortext-mac-app/
+  breaking: false
+  api_relevant: false
+- date: '2025-11-04'
+  title: Kortext adopt enhances title management for publishers in latest update
+  url: https://kortext.com/blog/platform-updates/kortext-adopt-enhances-title-management-for-publishers/
+  breaking: false
+  api_relevant: false
+- date: '2025-09-09'
+  title: The Kortext mobile and desktop apps are evolving
+  url: https://kortext.com/blog/platform-updates/the-kortext-mobile-and-desktop-apps-are-evolving/
+  breaking: false
+  api_relevant: false
+- date: '2025-08-01'
+  title: We've enhanced Kortext study and acquire – our summer 2025 release
+  url: https://kortext.com/blog/platform-updates/our-summer-2025-release/
+  breaking: false
+  api_relevant: false
+- date: '2025-06-11'
+  title: Accessibility first – June 2025 platform enhancements
+  url: https://kortext.com/blog/platform-updates/accessibility-first-june-2025-platform-enhancements/
+  breaking: false
+  api_relevant: false
+- date: '2025-03-24'
+  title: Kortext library introduced to mobile, tablet and desktop apps
+  url: https://kortext.com/blog/platform-updates/kortext-library-introduced-to-mobile-tablet-and-desktop-apps/
+  breaking: false
+  api_relevant: false
+entry_count: 12
+total_posts_in_category: 20
