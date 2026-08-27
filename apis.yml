@@ -46,49 +46,10 @@ tags_raw:
 - student-engagement
 - publishing
 apis:
-- name: Kortext Labs AI Study Tools API
-  description: FastAPI-generated service ("labsapi") behind Kortext's AI study features — quiz sessions
-    generated from a book, a URL or pasted text; content indexing and retrieval-augmented chat over a
-    student's Kortext bookshelf and uploaded files; flashcards, mnemonics, idea compass, reading plans,
-    Mermaid visualisations and "extract wisdom" summarisation; podcast generation from content; and per-content
-    study analytics (total time, confidence score, knowledge items, quiz session stats). 67 operations
-    across Quiz, Content, Chat, Reading List, Podcast, Labs and Health Checks tags, secured with HTTP
-    bearer tokens. The OpenAPI 3.1.0 description is served unauthenticated from Kortext's own labs demo
-    and QA hosts; the operations themselves are bearer-gated.
-  humanURL: https://api-demo.labs.kortext.com/docs
-  baseURL: https://api-demo.labs.kortext.com
-  tags:
-  - Artificial Intelligence
-  - Education
-  - Higher Education
-  - Student Engagement
-  - Learning Analytics
-  tags_raw:
-  - artificial-intelligence
-  - education
-  - higher-education
-  - student-engagement
-  - learning-analytics
-  properties:
-  - type: OpenAPI
-    url: openapi/kortext-labs-api-openapi.json
-  - type: Documentation
-    url: https://api-demo.labs.kortext.com/docs
-  - type: APIReference
-    url: https://api-demo.labs.kortext.com/redoc
-  - type: Authentication
-    url: authentication/kortext-authentication.yml
-  - type: ErrorCatalog
-    url: errors/kortext-problem-types.yml
-  - type: DataModel
-    url: data-model/kortext-data-model.yml
-  - type: Conventions
-    url: conventions/kortext-conventions.yml
-  - type: Overlay
-    url: overlays/kortext-labs-api-overlay.yaml
 - name: Kortext VLE / LTI Integration API
-  description: The institution-facing integration surface behind vle.kortext.com — 1EdTech LTI 1.1 launch
-    and LTI 1.3 Deep Linking endpoints that place Kortext content and KeyLinks reading lists inside Blackboard,
+  description: >-
+    The institution-facing integration surface behind vle.kortext.com — 1EdTech LTI 1.1 launch and LTI
+    1.3 Deep Linking endpoints that place Kortext content and KeyLinks reading lists inside Blackboard,
     Moodle, Canvas and other VLEs, plus authenticated REST resources for books, consumers (institutions),
     journeys and KeyLinks lists. Endpoint paths are published in the application's own runtime configuration
     at /assets/config.json; the resources themselves return 401 without an institutional token and Kortext
@@ -113,11 +74,12 @@ apis:
   - type: Conformance
     url: conformance/kortext-conformance.yml
 - name: Kortext Platform API
-  description: The authenticated application API behind app.kortext.com serving the Kortext study reader
-    and companion apps — identity, content, upload, cover, features, assessments, events and the genai
-    and study-tools paths. Base paths are published in Kortext's own front-end runtime configuration;
-    every resource requires a token issued by app.kortext.com/account/token and no public specification
-    or developer documentation is offered.
+  description: >-
+    The authenticated application API behind app.kortext.com serving the Kortext study reader and companion
+    apps — identity, content, upload, cover, features, assessments, events and the genai and study-tools
+    paths. Base paths are published in Kortext's own front-end runtime configuration; every resource requires
+    a token issued by app.kortext.com/account/token and no public specification or developer documentation
+    is offered.
   humanURL: https://app.kortext.com/identity/signin
   baseURL: https://app.kortext.com
   tags:
@@ -133,6 +95,182 @@ apis:
   properties:
   - type: Login
     url: https://app.kortext.com/identity/signin
+- aid: kortext:kortext-chat-api
+  name: Kortext Chat API
+  description: The Chat API from Kortext — 31 operation(s) for chat.
+  humanURL: https://api-demo.labs.kortext.com/docs
+  baseURL: https://api-demo.labs.kortext.com
+  tags:
+  - Chat
+  properties:
+  - type: OpenAPI
+    url: openapi/kortext-chat-api-openapi.yml
+  - type: Documentation
+    url: https://api-demo.labs.kortext.com/docs
+  - type: APIReference
+    url: https://api-demo.labs.kortext.com/redoc
+  - type: Authentication
+    url: authentication/kortext-authentication.yml
+  - type: ErrorCatalog
+    url: errors/kortext-problem-types.yml
+  - type: DataModel
+    url: data-model/kortext-data-model.yml
+  - type: Conventions
+    url: conventions/kortext-conventions.yml
+- aid: kortext:kortext-content-api
+  name: Kortext Content API
+  description: The Content API from Kortext — 20 operation(s) for content.
+  humanURL: https://api-demo.labs.kortext.com/docs
+  baseURL: https://api-demo.labs.kortext.com
+  tags:
+  - Content
+  properties:
+  - type: OpenAPI
+    url: openapi/kortext-content-api-openapi.yml
+  - type: Documentation
+    url: https://api-demo.labs.kortext.com/docs
+  - type: APIReference
+    url: https://api-demo.labs.kortext.com/redoc
+  - type: Authentication
+    url: authentication/kortext-authentication.yml
+  - type: ErrorCatalog
+    url: errors/kortext-problem-types.yml
+  - type: DataModel
+    url: data-model/kortext-data-model.yml
+  - type: Conventions
+    url: conventions/kortext-conventions.yml
+- aid: kortext:kortext-health-checks-api
+  name: Kortext Health Checks API
+  description: The Health Checks API from Kortext — 2 operation(s) for health checks.
+  humanURL: https://api-demo.labs.kortext.com/docs
+  baseURL: https://api-demo.labs.kortext.com
+  tags:
+  - Health Checks
+  properties:
+  - type: OpenAPI
+    url: openapi/kortext-health-checks-api-openapi.yml
+  - type: Documentation
+    url: https://api-demo.labs.kortext.com/docs
+  - type: APIReference
+    url: https://api-demo.labs.kortext.com/redoc
+  - type: Authentication
+    url: authentication/kortext-authentication.yml
+  - type: ErrorCatalog
+    url: errors/kortext-problem-types.yml
+  - type: DataModel
+    url: data-model/kortext-data-model.yml
+  - type: Conventions
+    url: conventions/kortext-conventions.yml
+- aid: kortext:kortext-labs-api
+  name: Kortext Labs API
+  description: The Labs API from Kortext — 1 operation(s) for labs.
+  humanURL: https://api-demo.labs.kortext.com/docs
+  baseURL: https://api-demo.labs.kortext.com
+  tags:
+  - Labs
+  properties:
+  - type: OpenAPI
+    url: openapi/kortext-labs-api-openapi.yml
+  - type: Documentation
+    url: https://api-demo.labs.kortext.com/docs
+  - type: APIReference
+    url: https://api-demo.labs.kortext.com/redoc
+  - type: Authentication
+    url: authentication/kortext-authentication.yml
+  - type: ErrorCatalog
+    url: errors/kortext-problem-types.yml
+  - type: DataModel
+    url: data-model/kortext-data-model.yml
+  - type: Conventions
+    url: conventions/kortext-conventions.yml
+- aid: kortext:kortext-podcast-api
+  name: Kortext Podcast API
+  description: The Podcast API from Kortext — 3 operation(s) for podcast.
+  humanURL: https://api-demo.labs.kortext.com/docs
+  baseURL: https://api-demo.labs.kortext.com
+  tags:
+  - Podcast
+  properties:
+  - type: OpenAPI
+    url: openapi/kortext-podcast-api-openapi.yml
+  - type: Documentation
+    url: https://api-demo.labs.kortext.com/docs
+  - type: APIReference
+    url: https://api-demo.labs.kortext.com/redoc
+  - type: Authentication
+    url: authentication/kortext-authentication.yml
+  - type: ErrorCatalog
+    url: errors/kortext-problem-types.yml
+  - type: DataModel
+    url: data-model/kortext-data-model.yml
+  - type: Conventions
+    url: conventions/kortext-conventions.yml
+- aid: kortext:kortext-quiz-api
+  name: Kortext Quiz API
+  description: The Quiz API from Kortext — 8 operation(s) for quiz.
+  humanURL: https://api-demo.labs.kortext.com/docs
+  baseURL: https://api-demo.labs.kortext.com
+  tags:
+  - Quiz
+  properties:
+  - type: OpenAPI
+    url: openapi/kortext-quiz-api-openapi.yml
+  - type: Documentation
+    url: https://api-demo.labs.kortext.com/docs
+  - type: APIReference
+    url: https://api-demo.labs.kortext.com/redoc
+  - type: Authentication
+    url: authentication/kortext-authentication.yml
+  - type: ErrorCatalog
+    url: errors/kortext-problem-types.yml
+  - type: DataModel
+    url: data-model/kortext-data-model.yml
+  - type: Conventions
+    url: conventions/kortext-conventions.yml
+- aid: kortext:kortext-reading-list-api
+  name: Kortext Reading List API
+  description: The Reading List API from Kortext — 1 operation(s) for reading list.
+  humanURL: https://api-demo.labs.kortext.com/docs
+  baseURL: https://api-demo.labs.kortext.com
+  tags:
+  - Reading List
+  properties:
+  - type: OpenAPI
+    url: openapi/kortext-reading-list-api-openapi.yml
+  - type: Documentation
+    url: https://api-demo.labs.kortext.com/docs
+  - type: APIReference
+    url: https://api-demo.labs.kortext.com/redoc
+  - type: Authentication
+    url: authentication/kortext-authentication.yml
+  - type: ErrorCatalog
+    url: errors/kortext-problem-types.yml
+  - type: DataModel
+    url: data-model/kortext-data-model.yml
+  - type: Conventions
+    url: conventions/kortext-conventions.yml
+- aid: kortext:kortext-test-api
+  name: Kortext Test API
+  description: The Test API from Kortext — 2 operation(s) for test.
+  humanURL: https://api-demo.labs.kortext.com/docs
+  baseURL: https://api-demo.labs.kortext.com
+  tags:
+  - Test
+  properties:
+  - type: OpenAPI
+    url: openapi/kortext-test-api-openapi.yml
+  - type: Documentation
+    url: https://api-demo.labs.kortext.com/docs
+  - type: APIReference
+    url: https://api-demo.labs.kortext.com/redoc
+  - type: Authentication
+    url: authentication/kortext-authentication.yml
+  - type: ErrorCatalog
+    url: errors/kortext-problem-types.yml
+  - type: DataModel
+    url: data-model/kortext-data-model.yml
+  - type: Conventions
+    url: conventions/kortext-conventions.yml
 common:
 - type: DomainSecurity
   url: security/kortext-domain-security.yml
