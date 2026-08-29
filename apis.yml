@@ -14,6 +14,17 @@ description: Kortext is a UK-headquartered digital learning and student engageme
   portal; its production APIs are authenticated and undocumented publicly, and the only openly published
   machine-readable contract is the OpenAPI 3.1 description of its AI "labs" study-tools API.
 url: https://raw.githubusercontent.com/api-evangelist/kortext/refs/heads/main/apis.yml
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://kortext.com/us/wp-content/uploads/2024/07/Kortext-White-EST-logo-transparent-980x255.png
 x-type: company
 x-source: harvest:secondary-market
