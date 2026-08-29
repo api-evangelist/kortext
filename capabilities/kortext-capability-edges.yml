@@ -1,0 +1,26 @@
+slug: kortext
+provider: Kortext
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Media, Entertainment & Telecom Content
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 1
+edges:
+- tag: Quiz
+  spec_file: kortext-quiz-api-openapi.yml
+  capability_id: BC-300.40
+  capability_id_l1: BC-300
+  capability_name: Learning & Development Management
+  confidence: 0.7
+  evidence: POST /tutor/v1/quiz/session  Create a new quiz session; POST /tutor/v1/quiz/session/answer  Submit
+    a session answer for a quiz question; schemas QuizAttemptDto, QuizSessionStatsDto
+  reason: Quiz session creation, question generation, answer attempts and session statistics constitute
+    learner assessment and knowledge testing — the clearest fit is Learning & Development Management.
+    Held at 0.7 as the frame has no dedicated education/assessment capability.

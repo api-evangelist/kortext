@@ -283,6 +283,9 @@ apis:
   - type: Conventions
     url: conventions/kortext-conventions.yml
 common:
+- type: CapabilityMap
+  url: capabilities/kortext-capability-edges.yml
+  name: Kortext Business Capability Map
 - type: DomainSecurity
   url: security/kortext-domain-security.yml
 - type: Website
