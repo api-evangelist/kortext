@@ -1,0 +1,274 @@
+openapi: 3.2.0
+info:
+  title: labsapi Podcast API
+  version: 1.13.0.223565
+tags:
+- name: Podcast
+paths:
+  /podcast/v1/content/{content_id}/podcast:
+    post:
+      tags:
+      - Podcast
+      summary: Create Podcast
+      description: "Create a new podcast from content.\n\nArgs:\n    content_id: ID of content to create podcast from\n    title: Title for the podcast\n    voice1: Voice to use for first speaker (default: Jenny)\n    voice2: Voice to use for second speaker (default: Guy)\n    current_user: Current authenticated user\n    db: Database session\n\nReturns:\n    Created podcast document"
+      operationId: create_podcast_podcast_v1_content__content_id__podcast_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: content_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Content Id
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Body_create_podcast_podcast_v1_content__content_id__podcast_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /podcast/v1/podcasts:
+    get:
+      tags:
+      - Podcast
+      summary: List Podcasts
+      description: "List all podcasts accessible by current user with pagination.\n\nArgs:\n    page: Page number\n    page_size: Items per page\n    current_user: Current authenticated user\n\nReturns:\n    Paginated list of podcasts"
+      operationId: list_podcasts_podcast_v1_podcasts_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          description: Page number
+          default: 1
+          title: Page
+        description: Page number
+      - name: pageSize
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          description: Items per page
+          default: 10
+          title: Pagesize
+        description: Items per page
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPodcastResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /podcast/v1/podcasts/{podcast_id}:
+    get:
+      tags:
+      - Podcast
+      summary: Get Podcast
+      description: "Get podcast details by ID if user has access.\n\nArgs:\n    podcast_id: ID of the podcast to retrieve\n    current_user: Current authenticated user\n\nReturns:\n    Podcast details including audio URL and script\n    \nRaises:\n    HTTPException: If podcast not found or user lacks access"
+      operationId: get_podcast_podcast_v1_podcasts__podcast_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: podcast_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Podcast Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PodcastResponseDto'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Podcast
+      summary: Delete Podcast
+      description: "Delete a podcast.\n\nArgs:\n    podcast_id: ID of the podcast to delete\n    current_user: Current authenticated user\n    \nRaises:\n    HTTPException: \n        - 404: If podcast not found\n        - 500: If there's an error deleting the podcast or its audio file"
+      operationId: delete_podcast_podcast_v1_podcasts__podcast_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: podcast_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Podcast Id
+      responses:
+        '204':
+          description: Podcast successfully deleted
+        '404':
+          description: Podcast not found
+        '500':
+          description: Internal server error during deletion
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    Body_create_podcast_podcast_v1_content__content_id__podcast_post:
+      properties:
+        title:
+          type: string
+          title: Title
+        voice1:
+          type: string
+          title: Voice1
+          default: Jenny
+        voice2:
+          type: string
+          title: Voice2
+          default: Guy
+      type: object
+      required:
+      - title
+      title: Body_create_podcast_podcast_v1_content__content_id__podcast_post
+    PodcastResponseDto:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+          description: Unique identifier for the document
+        podcastMetadata:
+          type: object
+          title: Podcastmetadata
+          description: Podcast metadata
+        createdAt:
+          type: string
+          format: date-time
+          title: Createdat
+          description: Creation timestamp
+        script:
+          anyOf:
+          - type: object
+          - type: 'null'
+          title: Script
+          description: Generated podcast script
+        audioBlobUrl:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Audiobloburl
+          description: URL to audio blob
+        status:
+          type: string
+          title: Status
+          description: Document status
+        title:
+          type: string
+          title: Title
+          description: Get title from podcast_metadata.
+          readOnly: true
+      type: object
+      required:
+      - id
+      - createdAt
+      - status
+      - title
+      title: PodcastResponseDto
+      description: Schema for document response.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    PaginatedPodcastResponse:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/PodcastResponseDto'
+          type: array
+          title: Items
+          description: List of podcast documents
+        total:
+          type: integer
+          title: Total
+          description: Total number of documents
+        page:
+          type: integer
+          title: Page
+          description: Current page number
+        pageSize:
+          type: integer
+          title: Pagesize
+          description: Number of items per page
+        totalPages:
+          type: integer
+          title: Totalpages
+          description: Total number of pages
+      type: object
+      required:
+      - items
+      - total
+      - page
+      - pageSize
+      - totalPages
+      title: PaginatedPodcastResponse
+      description: Paginated response for podcasts.
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

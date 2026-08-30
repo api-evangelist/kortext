@@ -1,0 +1,115 @@
+openapi: 3.2.0
+info:
+  title: labsapi Reading List API
+  version: 1.13.0.223565
+tags:
+- name: Reading List
+paths:
+  /chat/v1/reading-list/stream:
+    post:
+      tags:
+      - Reading List
+      summary: Chat All Stream
+      operationId: chat_all_stream_chat_v1_reading_list_stream_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatAllRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+components:
+  schemas:
+    ChatAllRequest:
+      properties:
+        sessionId:
+          anyOf:
+          - type: integer
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Session ID
+          description: Session ID for the chat
+        message:
+          type: string
+          maxLength: 300
+          minLength: 2
+          title: Message
+          description: Message or question
+        systemMessage:
+          anyOf:
+          - type: string
+            maxLength: 4000
+          - type: 'null'
+          title: System Message
+          description: System message
+        swirlSearch:
+          type: boolean
+          title: Swirl Search
+          description: Enable searching with Swirl
+          default: false
+        canvasCourseId:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Canvas Course ID
+          description: Canvas course ID
+        includeMyfiles:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: With MyFiles
+          description: Include user files to the response
+          default: false
+      type: object
+      required:
+      - message
+      title: ChatAllRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

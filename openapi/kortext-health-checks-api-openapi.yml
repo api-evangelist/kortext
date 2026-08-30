@@ -1,0 +1,45 @@
+openapi: 3.2.0
+info:
+  title: labsapi Health Checks API
+  version: 1.13.0.223565
+tags:
+- name: Health Checks
+paths:
+  /health/live:
+    get:
+      tags:
+      - Health Checks
+      summary: Liveness
+      operationId: liveness_health_live_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+                title: Response Liveness Health Live Get
+  /health/ready:
+    get:
+      tags:
+      - Health Checks
+      summary: Readiness
+      operationId: readiness_health_ready_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+                title: Response Readiness Health Ready Get
+components:
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

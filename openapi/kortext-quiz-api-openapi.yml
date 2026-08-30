@@ -1,0 +1,979 @@
+openapi: 3.2.0
+info:
+  title: labsapi Quiz API
+  version: 1.13.0.223565
+tags:
+- name: Quiz
+paths:
+  /tutor/v1/quiz/session:
+    post:
+      tags:
+      - Quiz
+      summary: Create a new quiz session
+      description: Initializes a new quiz session for the specified content and generates the first question.
+      operationId: tutor_create_session_tutor_v1_quiz_session_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: start_page
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: Start page for the quiz session
+          title: Start Page
+        description: Start page for the quiz session
+      - name: end_page
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: End page for the quiz session
+          title: End Page
+        description: End page for the quiz session
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateQuizSessionDto'
+      responses:
+        '200':
+          description: Successfully created quiz session
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  anyOf:
+                  - type: string
+                    format: uuid
+                  - type: boolean
+                title: Response Tutor Create Session Tutor V1 Quiz Session Post
+              example:
+                quizSessionId: 123e4567-e89b-12d3-a456-426614174000
+                hasContentParts: true
+        '400':
+          description: Invalid request
+        '403':
+          description: Unauthorized access
+        '500':
+          description: Internal server error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /tutor/v1/quiz/session/question:
+    post:
+      tags:
+      - Quiz
+      summary: Create a new question for an existing quiz session
+      description: Generates and returns a new question for the specified quiz session. This endpoint is restricted to admin users.
+      operationId: tutor_create_session_question_tutor_v1_quiz_session_question_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateQuizSessionQuestionDto'
+        required: true
+      responses:
+        '200':
+          description: Successfully created quiz session question
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicQuizSessionQuestionDto'
+              example:
+                quiz_session_id: 123e4567-e89b-12d3-a456-426614174000
+                question:
+                  id: 789e4567-e89b-12d3-a456-426614174001
+                  question: What is the capital of France?
+                  answers:
+                  - id: a1
+                    text: London
+                    is_correct: false
+                  - id: a2
+                    text: Paris
+                    is_correct: true
+                  - id: a3
+                    text: Berlin
+                    is_correct: false
+                  - id: a4
+                    text: Madrid
+                    is_correct: false
+        '400':
+          description: Invalid request
+        '403':
+          description: Unauthorized access
+        '404':
+          description: Quiz session not found
+        '500':
+          description: Internal server error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+  /tutor/v1/quiz/session/answer:
+    post:
+      tags:
+      - Quiz
+      summary: Submit a session answer for a quiz question
+      description: Allows a user to submit and answer for a quiz questions as part of a quiz session.
+      operationId: tutor_create_session_answer_attempt_tutor_v1_quiz_session_answer_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetQuizAnswerAttemptDto'
+        required: true
+      responses:
+        '200':
+          description: Successfully submitted answer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuizAttemptDto'
+              example:
+                id: 123e4567-e89b-12d3-a456-426614174000
+                quiz_session_id: 123e4567-e89b-12d3-a456-426614174000
+                question_id: 123e4567-e89b-12d3-a456-426614174000
+                selected_answer_id: 123e4567-e89b-12d3-a456-426614174000
+                is_correct: true
+        '400':
+          description: Invalid request
+        '403':
+          description: Unauthorized access
+        '404':
+          description: Question or answer not found
+        '500':
+          description: Internal server error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+  /tutor/v1/quiz/session/answer/{attempt_id}:
+    patch:
+      tags:
+      - Quiz
+      summary: Update a session answer for a quiz question
+      description: Allows a user to update and answer for a quiz questions as part of a quiz session.
+      operationId: tutor_create_session_answer_attempt_tutor_v1_quiz_session_answer__attempt_id__patch
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: attempt_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: The UUID of the quiz session to retrieve details for
+          title: Attempt Id
+        description: The UUID of the quiz session to retrieve details for
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateQuizAnswerAttemptDto'
+      responses:
+        '200':
+          description: Successfully updated answer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuizAttemptDto'
+              example:
+                id: 123e4567-e89b-12d3-a456-426614174000
+                quiz_session_id: 123e4567-e89b-12d3-a456-426614174000
+                question_id: 123e4567-e89b-12d3-a456-426614174000
+                selected_answer_id: 123e4567-e89b-12d3-a456-426614174000
+                is_correct: true
+        '400':
+          description: Invalid request
+        '403':
+          description: Unauthorized access
+        '404':
+          description: Question or answer not found
+        '500':
+          description: Internal server error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /tutor/v1/quiz/sessions:
+    get:
+      tags:
+      - Quiz
+      summary: Get all quiz sessions for the current user
+      description: Retrieves a list of all quiz sessions for the authenticated admin user. This endpoint provides a comprehensive overview of the user's quiz history. Total time is in seconds. Session start and last answered times are in ISO 8601 format.
+      operationId: tutor_get_sessions_grouped_by_content_id_tutor_v1_quiz_sessions_get
+      responses:
+        '200':
+          description: Successfully retrieved quiz sessions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuizSessionsDto'
+              example:
+                quiz_sessions:
+                - id: 123e4567-e89b-12d3-a456-426614174000
+                  content_id: 789e4567-e89b-12d3-a456-426614174001
+                  content_title: Introduction to Python
+                  question_count: 10
+                  correct_answer_count: 8
+                  incorrect_answer_count: 2
+                  total_time: 600
+                  session_start_time: '2024-08-07T10:00:00Z'
+                  last_answered_time: '2024-08-07T10:10:00Z'
+        '403':
+          description: Unauthorized access
+        '500':
+          description: Internal server error
+      security:
+      - HTTPBearer: []
+  /tutor/v1/quiz/session/{session_id}/detail:
+    get:
+      tags:
+      - Quiz
+      summary: Get detailed information about a specific quiz session
+      description: Retrieves comprehensive details about a specific quiz session for the authenticated admin user. This endpoint provides in-depth information about the session, including questions, answers, and performance metrics. Total time is in seconds. Session start and last answered times are in ISO 8601 format.
+      operationId: tutor_get_session_detail_tutor_v1_quiz_session__session_id__detail_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: The UUID of the quiz session to retrieve details for
+          title: Session Id
+        description: The UUID of the quiz session to retrieve details for
+      responses:
+        '200':
+          description: Successfully retrieved quiz session details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuizSessionStatsDto'
+              example:
+                id: 123e4567-e89b-12d3-a456-426614174000
+                user_id: user123
+                content_id: 789e4567-e89b-12d3-a456-426614174001
+                content_part_id: abc12345-e89b-12d3-a456-426614174002
+                content_title: Introduction to Python
+                question_count: 10
+                correct_answer_count: 8
+                incorrect_answer_count: 2
+                answered_question_count: 10
+                total_time: 600
+                covered_knowledge_items_count: 5
+                session_start_time: '2024-08-07T10:00:00Z'
+                last_answered_time: '2024-08-07T10:10:00Z'
+                knowledge_item_count: 7
+                knowledge_items:
+                - id: def12345-e89b-12d3-a456-426614174003
+                  name: Python Variables
+                  description: Understanding variable declaration and assignment in Python
+                  content_part_id: abc12345-e89b-12d3-a456-426614174002
+        '403':
+          description: Unauthorized access
+        '404':
+          description: Quiz session not found
+        '500':
+          description: Internal server error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /tutor/v1/quiz/session/url:
+    post:
+      tags:
+      - Quiz
+      summary: Create a quiz session from a URL
+      description: Initiates a new quiz session based on content scraped from a provided URL. This endpoint allows admins to create quizzes from web content, enabling dynamic and up-to-date assessments.
+      operationId: tutor_create_session_from_url_tutor_v1_quiz_session_url_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateQuizSessionFromUrlDto'
+        required: true
+      responses:
+        '200':
+          description: Successfully created quiz session
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuizSessionQuestionDto'
+              example:
+                quiz_session_id: 123e4567-e89b-12d3-a456-426614174000
+                question:
+                  id: 789e4567-e89b-12d3-a456-426614174001
+                  text: What is the main topic discussed in the web page?
+                  answers:
+                  - id: a1b2c3d4-e5f6-7890-abcd-1234567890ab
+                    text: Option A
+                    is_correct: false
+                  - id: b2c3d4e5-f6g7-8901-bcde-2345678901bc
+                    text: Option B
+                    is_correct: true
+                  - id: c3d4e5f6-g7h8-9012-cdef-3456789012cd
+                    text: Option C
+                    is_correct: false
+                  - id: d4e5f6g7-h8i9-0123-defg-4567890123de
+                    text: Option D
+                    is_correct: false
+        '400':
+          description: Invalid URL or scraping failed
+        '403':
+          description: Unauthorized access
+        '500':
+          description: Internal server error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+  /tutor/v1/quiz/session/text:
+    post:
+      tags:
+      - Quiz
+      summary: Create a quiz session from custom text
+      description: Initiates a new quiz session based on provided text content. This endpoint allows admins to create quizzes from custom text input, enabling flexible content-based assessments.
+      operationId: tutor_create_session_from_text_tutor_v1_quiz_session_text_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateQuizSessionFromTextDto'
+        required: true
+      responses:
+        '200':
+          description: Successfully created quiz session
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuizSessionQuestionDto'
+              example:
+                quiz_session_id: 123e4567-e89b-12d3-a456-426614174000
+                question:
+                  id: 789e4567-e89b-12d3-a456-426614174001
+                  text: What is the main topic of the provided text?
+                  answers:
+                  - id: a1b2c3d4-e5f6-7890-abcd-1234567890ab
+                    text: Option A
+                    is_correct: false
+                  - id: b2c3d4e5-f6g7-8901-bcde-2345678901bc
+                    text: Option B
+                    is_correct: true
+                  - id: c3d4e5f6-g7h8-9012-cdef-3456789012cd
+                    text: Option C
+                    is_correct: false
+                  - id: d4e5f6g7-h8i9-0123-defg-4567890123de
+                    text: Option D
+                    is_correct: false
+        '400':
+          description: Invalid request
+        '403':
+          description: Unauthorized access
+        '500':
+          description: Internal server error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+components:
+  schemas:
+    CreateQuizSessionFromUrlDto:
+      properties:
+        contentId:
+          type: string
+          format: uuid
+          title: Contentid
+          description: Content ID this session is for
+        url:
+          type: string
+          title: Url
+          description: URL to generate quiz from
+        title:
+          type: string
+          title: Title
+          description: Title of the quiz session
+        numQuestions:
+          type: integer
+          title: Numquestions
+          description: Number of questions to generate
+          default: 5
+      type: object
+      required:
+      - contentId
+      - url
+      - title
+      title: CreateQuizSessionFromUrlDto
+    CreateQuizSessionQuestionDto:
+      properties:
+        quizSessionId:
+          type: string
+          format: uuid
+          title: Session ID
+          description: UUID of the quiz session
+      type: object
+      required:
+      - quizSessionId
+      title: CreateQuizSessionQuestionDto
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    SetQuizAnswerAttemptDto:
+      properties:
+        sessionId:
+          type: string
+          format: uuid
+          title: Session ID
+          description: UUID of the quiz session
+        questionId:
+          type: string
+          format: uuid
+          title: Question ID
+          description: UUID of the quiz question
+        answerId:
+          type: string
+          format: uuid
+          title: Answer ID
+          description: UUID of the quiz answer
+      type: object
+      required:
+      - sessionId
+      - questionId
+      - answerId
+      title: SetQuizAnswerAttemptDto
+    UpdateQuizAnswerAttemptDto:
+      properties:
+        answerId:
+          type: string
+          format: uuid
+          title: Answer ID
+          description: UUID of the quiz answer
+      type: object
+      required:
+      - answerId
+      title: UpdateQuizAnswerAttemptDto
+    KnowledgeItemDto:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+          description: Unique identifier for the knowledge item
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+          description: Name of the knowledge item
+        description:
+          type: string
+          title: Description
+          description: Description of the knowledge item
+        contentPartId:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: string
+          title: Contentpartid
+          description: ID of the content part this knowledge item belongs to
+        contentId:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: string
+          title: Contentid
+          description: ID of the content this knowledge item belongs to
+      type: object
+      required:
+      - id
+      - description
+      - contentPartId
+      - contentId
+      title: KnowledgeItemDto
+    QuizSessionsDto:
+      properties:
+        quizSessions:
+          items:
+            $ref: '#/components/schemas/ContentGroupDto'
+          type: array
+          title: Quizsessions
+      type: object
+      required:
+      - quizSessions
+      title: QuizSessionsDto
+    QuizSessionStatsDto:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+          description: Unique identifier for the quiz session
+        userId:
+          type: string
+          title: Userid
+          description: ID of the user
+        contentId:
+          type: string
+          format: uuid
+          title: Contentid
+          description: ID of the content
+        contentTitle:
+          type: string
+          title: Contenttitle
+          description: Title of the content
+        contentAuthor:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Contentauthor
+          description: Author of the content
+        questionCount:
+          type: integer
+          title: Questioncount
+          description: Total number of questions
+        correctAnswerCount:
+          type: integer
+          title: Correctanswercount
+          description: Number of correct answers
+        incorrectAnswerCount:
+          type: integer
+          title: Incorrectanswercount
+          description: Number of incorrect answers
+        answeredQuestionCount:
+          type: integer
+          title: Answeredquestioncount
+          description: Total number of answered questions
+        totalTime:
+          anyOf:
+          - type: number
+          - type: string
+            format: duration
+          - type: 'null'
+          title: Totaltime
+          description: Total time spent on the quiz in seconds
+        knowledgeItemCount:
+          type: integer
+          title: Knowledgeitemcount
+          description: Total number of knowledge items
+        coveredKnowledgeItemsCount:
+          type: integer
+          title: Coveredknowledgeitemscount
+          description: Number of knowledge items covered
+        sessionStartTime:
+          type: string
+          format: date-time
+          title: Sessionstarttime
+          description: Start time of the quiz session
+        lastAnsweredTime:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Lastansweredtime
+          description: Time of the last answered question
+        knowledgeItems:
+          items:
+            $ref: '#/components/schemas/KnowledgeItemDto'
+          type: array
+          title: Knowledgeitems
+          description: List of knowledge items
+        correctPercentage:
+          type: number
+          title: Correctpercentage
+          readOnly: true
+      type: object
+      required:
+      - id
+      - userId
+      - contentId
+      - contentTitle
+      - contentAuthor
+      - questionCount
+      - correctAnswerCount
+      - incorrectAnswerCount
+      - answeredQuestionCount
+      - knowledgeItemCount
+      - coveredKnowledgeItemsCount
+      - sessionStartTime
+      - knowledgeItems
+      - correctPercentage
+      title: QuizSessionStatsDto
+    QuizAttemptDto:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+          description: Unique identifier for the attempt
+        sessionId:
+          type: string
+          format: uuid
+          title: Sessionid
+          description: The session in which the attempt was made
+        questionId:
+          type: string
+          format: uuid
+          title: Questionid
+          description: The question that was attempted
+        answerId:
+          type: string
+          format: uuid
+          title: Answerid
+          description: The answer that was selected
+        isCorrect:
+          type: boolean
+          title: Iscorrect
+          description: Indicates whether this answer is correct
+      type: object
+      required:
+      - id
+      - sessionId
+      - questionId
+      - answerId
+      - isCorrect
+      title: QuizAttemptDto
+    QuizQuestionDto:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+          description: Unique identifier for the question
+        question:
+          type: string
+          title: Question
+          description: The text of the question
+        answers:
+          items:
+            $ref: '#/components/schemas/QuizAnswerDto'
+          type: array
+          title: Answers
+          description: List of possible answers
+      type: object
+      required:
+      - id
+      - question
+      - answers
+      title: QuizQuestionDto
+    PublicQuizQuestionDto:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+          description: Unique identifier for the question
+        question:
+          type: string
+          title: Question
+          description: The text of the question
+        answers:
+          items:
+            $ref: '#/components/schemas/PublicQuizAnswerDto'
+          type: array
+          title: Answers
+          description: List of possible answers
+      type: object
+      required:
+      - id
+      - question
+      - answers
+      title: PublicQuizQuestionDto
+    ContentGroupDto:
+      properties:
+        contentId:
+          type: string
+          title: Contentid
+        contentTitle:
+          type: string
+          title: Contenttitle
+        contentAuthor:
+          type: string
+          title: Contentauthor
+        totalKnowledgeItems:
+          type: integer
+          title: Totalknowledgeitems
+          default: 0
+        totalCoveredKnowledgeItems:
+          type: integer
+          title: Totalcoveredknowledgeitems
+        totalQuestions:
+          type: integer
+          title: Totalquestions
+        totalCorrectAnswers:
+          type: integer
+          title: Totalcorrectanswers
+        confidenceScore:
+          type: number
+          title: Confidencescore
+        sessions:
+          items:
+            $ref: '#/components/schemas/QuizSessionStatsDto'
+          type: array
+          title: Sessions
+      type: object
+      required:
+      - contentId
+      - contentTitle
+      - contentAuthor
+      - totalCoveredKnowledgeItems
+      - totalQuestions
+      - totalCorrectAnswers
+      - confidenceScore
+      - sessions
+      title: ContentGroupDto
+    PublicQuizAnswerDto:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+          description: Unique identifier for the answer
+        text:
+          type: string
+          title: Text
+          description: The text of the answer
+      type: object
+      required:
+      - id
+      - text
+      title: PublicQuizAnswerDto
+    CreateQuizSessionFromTextDto:
+      properties:
+        contentId:
+          type: string
+          format: uuid
+          title: Contentid
+          description: Content ID this session is for
+        text:
+          type: string
+          title: Text
+          description: Text content to generate quiz from
+        title:
+          type: string
+          title: Title
+          description: Title of the quiz session
+        numQuestions:
+          type: integer
+          title: Numquestions
+          description: Number of questions to generate
+          default: 5
+      type: object
+      required:
+      - contentId
+      - text
+      - title
+      title: CreateQuizSessionFromTextDto
+    ContentPartDto:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: string
+          title: Id
+          description: Unique identifier for the content part
+        contentId:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: string
+          title: Contentid
+          description: ID of the content this part belongs to
+        pageNumber:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Pagenumber
+          description: Page number of the content part
+        pageId:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Pageid
+          description: Page ID of the content part
+        contentType:
+          $ref: '#/components/schemas/ContentType'
+          description: Type of the content
+        contentText:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Contenttext
+          description: Text of the content part
+      type: object
+      required:
+      - id
+      - contentId
+      - contentType
+      title: ContentPartDto
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    PublicQuizSessionQuestionDto:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+          description: Unique identifier for the question
+        quizSessionId:
+          type: string
+          format: uuid
+          title: Quizsessionid
+          description: Unique identifier for the quiz session
+        question:
+          $ref: '#/components/schemas/PublicQuizQuestionDto'
+          description: The question for this session
+        contentPart:
+          $ref: '#/components/schemas/ContentPartDto'
+          description: The content part for this question
+        knowledgeItem:
+          $ref: '#/components/schemas/KnowledgeItemDto'
+          description: The knowledge item for this question
+      type: object
+      required:
+      - id
+      - quizSessionId
+      - question
+      - contentPart
+      - knowledgeItem
+      title: PublicQuizSessionQuestionDto
+    QuizAnswerDto:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+          description: Unique identifier for the answer
+        questionId:
+          type: string
+          format: uuid
+          title: Questionid
+          description: The question this answer belongs to
+        text:
+          type: string
+          title: Text
+          description: The answer text
+        isCorrect:
+          type: boolean
+          title: Iscorrect
+          description: Whether this is the correct answer
+      type: object
+      required:
+      - id
+      - questionId
+      - text
+      - isCorrect
+      title: QuizAnswerDto
+    ContentType:
+      type: string
+      enum:
+      - K
+      - U
+      title: ContentType
+    CreateQuizSessionDto:
+      properties:
+        contentId:
+          type: string
+          maxLength: 40
+          minLength: 1
+          title: Content ID
+          description: Content ID for the quiz session
+        pageId:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Page ID
+          description: Page ID for the quiz session
+        pageNumber:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Page Number
+          description: Page Number for the quiz session
+        contentType:
+          $ref: '#/components/schemas/ContentType'
+          title: Content Type
+          description: Content Type for the quiz session
+      type: object
+      required:
+      - contentId
+      - contentType
+      title: CreateQuizSessionDto
+    QuizSessionQuestionDto:
+      properties:
+        quizSessionId:
+          type: string
+          format: uuid
+          title: Quizsessionid
+          description: Unique identifier for the quiz session
+        question:
+          $ref: '#/components/schemas/QuizQuestionDto'
+      type: object
+      required:
+      - quizSessionId
+      - question
+      title: QuizSessionQuestionDto
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

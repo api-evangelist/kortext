@@ -1,0 +1,36 @@
+openapi: 3.2.0
+info:
+  title: labsapi Labs API
+  version: 1.13.0.223565
+tags:
+- name: Labs
+paths:
+  /v1/total-time:
+    get:
+      tags:
+      - Labs
+      summary: Get total time for all quiz sessions
+      description: Calculates and retrieves the total time spent across all quiz sessions for the authenticated admin user. This endpoint provides insights into overall user engagement and time investment in quizzes. Total time is returned in seconds.
+      operationId: get_total_time_for_all_sessions_v1_total_time_get
+      responses:
+        '200':
+          description: Successfully retrieved total time
+          content:
+            application/json:
+              schema:
+                type: object
+                title: Response Get Total Time For All Sessions V1 Total Time Get
+              example:
+                total_time: 7200.5
+        '403':
+          description: Unauthorized access
+        '500':
+          description: Internal server error
+      security:
+      - HTTPBearer: []
+components:
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -1,0 +1,1177 @@
+openapi: 3.2.0
+info:
+  title: labsapi Content API
+  version: 1.13.0.223565
+tags:
+- name: Content
+paths:
+  /tutor/v1/content/{content_id}/has-content-parts:
+    get:
+      tags:
+      - Content
+      summary: Check if content has parts
+      description: Checks if the specified content has any content parts, optionally within a given page range.
+      operationId: has_process_content_parts_tutor_v1_content__content_id__has_content_parts_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: content_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: The UUID of the content to check
+          title: Content Id
+        description: The UUID of the content to check
+      - name: start_page
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: Start page for the check
+          title: Start Page
+        description: Start page for the check
+      - name: end_page
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: End page for the check
+          title: End Page
+        description: End page for the check
+      responses:
+        '200':
+          description: Successfully checked content parts
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: boolean
+                title: Response Has Process Content Parts Tutor V1 Content  Content Id  Has Content Parts Get
+              example:
+                hasContentParts: true
+        '400':
+          description: Invalid request
+        '403':
+          description: Unauthorized access
+        '500':
+          description: Internal server error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /tutor/v1/content/tasks:
+    get:
+      tags:
+      - Content
+      summary: Get All Task Statuses
+      operationId: get_all_task_statuses_tutor_v1_content_tasks_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/TaskStatusDto'
+                type: array
+                title: Response Get All Task Statuses Tutor V1 Content Tasks Get
+      security:
+      - HTTPBearer: []
+  /tutor/v1/content/my-indexed-files:
+    get:
+      tags:
+      - Content
+      summary: Get My Indexed Files
+      operationId: get_my_indexed_files_tutor_v1_content_my_indexed_files_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/IndexedFileDto'
+                type: array
+                title: Response Get My Indexed Files Tutor V1 Content My Indexed Files Get
+      security:
+      - HTTPBearer: []
+  /tutor/v1/content/{content_id}/index:
+    post:
+      tags:
+      - Content
+      summary: Index Content
+      operationId: index_content_tutor_v1_content__content_id__index_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: content_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Content Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: boolean
+                title: Response Index Content Tutor V1 Content  Content Id  Index Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /tutor/v1/content/{content_id}/delete-index:
+    post:
+      tags:
+      - Content
+      summary: Delete Index
+      operationId: delete_index_tutor_v1_content__content_id__delete_index_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: content_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Content Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: boolean
+                title: Response Delete Index Tutor V1 Content  Content Id  Delete Index Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /tutor/v1/content/ws/{content_id}:
+    post:
+      tags:
+      - Content
+      summary: Asynchronously process content for a given content ID
+      operationId: process_content_for_content_id_async_tutor_v1_content_ws__content_id__post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: content_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Content Id
+      - name: start_page
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: Start page for processing
+          title: Start Page
+        description: Start page for processing
+      - name: end_page
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: End page for processing
+          title: End Page
+        description: End page for processing
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentProcessingStatusDTO'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /tutor/v1/content/content/status/{task_id}:
+    get:
+      tags:
+      - Content
+      summary: Get Task Status
+      operationId: get_task_status_tutor_v1_content_content_status__task_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: task_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Task Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                title: Response Get Task Status Tutor V1 Content Content Status  Task Id  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /tutor/v1/content/chat-file:
+    post:
+      tags:
+      - Content
+      summary: Chat File
+      operationId: chat_file_tutor_v1_content_chat_file_post
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_chat_file_tutor_v1_content_chat_file_post'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                title: Response Chat File Tutor V1 Content Chat File Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+  /tutor/v1/content/mnemonics:
+    post:
+      tags:
+      - Content
+      summary: Generate Mnemonics
+      operationId: generate_mnemonics_tutor_v1_content_mnemonics_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TextRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+  /tutor/v1/content/idea-compass:
+    post:
+      tags:
+      - Content
+      summary: Generate Idea Compass
+      operationId: generate_idea_compass_tutor_v1_content_idea_compass_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TextRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+  /tutor/v1/content/reading-plan:
+    post:
+      tags:
+      - Content
+      summary: Generate Reading Plan
+      operationId: generate_reading_plan_tutor_v1_content_reading_plan_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TextRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+  /tutor/v1/content/to-flashcards:
+    post:
+      tags:
+      - Content
+      summary: Generate Flashcards
+      operationId: generate_flashcards_tutor_v1_content_to_flashcards_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TextRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+  /tutor/v1/content/wisdom-ids:
+    get:
+      tags:
+      - Content
+      summary: Get wisdom IDs with content IDs for a user
+      description: Retrieves a list of wisdom IDs with their respective content IDs for the current user.
+      operationId: get_wisdom_ids_for_user_tutor_v1_content_wisdom_ids_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/WisdomIdDto'
+                type: array
+                title: Response Get Wisdom Ids For User Tutor V1 Content Wisdom Ids Get
+      security:
+      - HTTPBearer: []
+  /tutor/v1/content/wisdom/{wisdom_id}:
+    get:
+      tags:
+      - Content
+      summary: Get wisdom JSON for a specific wisdom ID
+      description: Retrieves the wisdom JSON for a given wisdom ID.
+      operationId: get_wisdom_by_id_tutor_v1_content_wisdom__wisdom_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: wisdom_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Wisdom Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WisdomDto'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /tutor/v1/content/{content_id}/wisdom:
+    get:
+      tags:
+      - Content
+      summary: Extract wisdom from specific content
+      description: Extracts and retrieves comprehensive wisdom from the specified content using advanced natural language processing techniques. This endpoint provides deep insights, key takeaways, and structured information derived from the content.
+      operationId: extract_wisdom_tutor_v1_content__content_id__wisdom_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: content_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: The UUID of the content to extract wisdom from
+          title: Content Id
+        description: The UUID of the content to extract wisdom from
+      responses:
+        '200':
+          description: Successfully extracted wisdom
+          content:
+            application/json:
+              schema:
+                type: object
+                title: Response Extract Wisdom Tutor V1 Content  Content Id  Wisdom Get
+              example:
+                wisdom:
+                  summary:
+                  - 1. The content discusses Kubernetes and Azure Kubernetes Service (AKS), focusing on monitoring, management, and deployment strategies for containerized applications.
+                  ideas:
+                  - 1. Monitoring is essential for ensuring application availability.
+                  - 2. Understanding Kubernetes concepts like Ingress, Services, Pods, and Namespaces is crucial for success.
+                  - 3. Hybrid and multi-cloud strategies require knowledge of different platforms.
+                  quotes:
+                  - 1. 'If you want to ensure that your applications are available for your business you need some kind of monitoring!'
+                  - 2. 'There is a lot to be learned but some key concepts like Services, Pods, Ingresses, and namespaces are vital to your success.'
+                  habits:
+                  - 1. Regularly update Kubernetes versions to ensure security.
+                  - 2. Implement monitoring tools like Prometheus and Grafana.
+                  - 3. Use Azure CLI for managing AKS clusters.
+                  facts:
+                  - 1. Kubernetes is the platform to orchestrate containers.
+                  - 2. AKS is a managed Kubernetes service in Azure.
+                  - 3. Azure Defender checks for suspicious events at both host and cluster levels.
+                  references:
+                  - 1. Azure Kubernetes Service (AKS) documentation.
+                  - 2. Prometheus and Grafana for monitoring.
+                  - 3. Azure Defender for Kubernetes.
+                  recommendations:
+                  - 1. Always configure Azure Defender for both Host and Cluster level.
+                  - 2. Use rolling updates to minimize downtime during deployments.
+                  - 3. Research cloud platforms to understand their capabilities.
+        '403':
+          description: Unauthorized access
+        '404':
+          description: Content not found
+        '500':
+          description: Internal server error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /tutor/v1/content/{content_id}/quiz-sessions:
+    get:
+      tags:
+      - Content
+      summary: Get comprehensive quiz session statistics for specific content
+      description: Retrieves detailed statistics about all quiz sessions related to a specific content item for the authenticated admin user. This endpoint provides a comprehensive overview of user performance and engagement with the content. Total time is in seconds. Session start time and last answered time are in ISO 8601 format.
+      operationId: get_user_quiz_session_stats_for_content_tutor_v1_content__content_id__quiz_sessions_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: content_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: The UUID of the content to retrieve quiz session stats for
+          title: Content Id
+        description: The UUID of the content to retrieve quiz session stats for
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentQuizStatsDto'
+              example:
+                id: 579f1929-7b53-4957-b068-8ebde6606fea
+                contentId: bed570ac-2079-47f4-84c9-168aa3d98758
+                contentTitle: future-of-higher-education.pdf
+                userId: '830467'
+                contentPartId: ee77555e-f870-4de5-ac93-498845544101
+                questionCount: 32
+                correctAnswerCount: 8
+                incorrectAnswerCount: 24
+                answeredQuestionCount: 32
+                totalTime: 172585.0
+                correctPercentage: 25.0
+                coveredKnowledgeItemsCount: 1
+                sessionStartTime: '2024-08-04T13:17:03.363333+00:00'
+                lastAnsweredTime: '2024-08-06T13:13:28.806666+00:00'
+                knowledgeItemCount: 8
+                knowledgeItems:
+                - id: a1311ee1-0393-41e9-9b9c-388697a83e3d
+                  name: A Social Media Icon is mentioned in the document.
+                  description: A Social Media Icon is mentioned in the document.
+                  contentPartId: ee77555e-f870-4de5-ac93-498845544101
+        '403':
+          description: Unauthorized access
+        '404':
+          description: Content not found
+        '500':
+          description: Internal server error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /tutor/v1/content/{content_id}/total-time:
+    get:
+      tags:
+      - Content
+      summary: Get total time spent on specific content
+      description: Calculates and retrieves the total time spent by the user on the specified content across allquiz sessions. Total time is in seconds.
+      operationId: get_total_time_for_content_tutor_v1_content__content_id__total_time_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: content_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: The UUID of the content to calculate total time for
+          title: Content Id
+        description: The UUID of the content to calculate total time for
+      responses:
+        '200':
+          description: Successfully retrieved total time
+          content:
+            application/json:
+              schema:
+                type: object
+                title: Response Get Total Time For Content Tutor V1 Content  Content Id  Total Time Get
+              example:
+                total_time: 3600.5
+        '403':
+          description: Unauthorized access
+        '404':
+          description: Content not found
+        '500':
+          description: Internal server error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /tutor/v1/content/{content_id}/confidence-score:
+    get:
+      tags:
+      - Content
+      summary: Get confidence score for specific content
+      description: Calculates and retrieves the confidence score for the specified content based on user performance in quiz sessions.
+      operationId: get_confidence_score_tutor_v1_content__content_id__confidence_score_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: content_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: The UUID of the content to calculate confidence score for
+          title: Content Id
+        description: The UUID of the content to calculate confidence score for
+      responses:
+        '200':
+          description: Successfully retrieved confidence score
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentConfidenceScoreDto'
+              example:
+                confidenceScore: 0.85
+        '403':
+          description: Unauthorized access
+        '404':
+          description: Content not found
+        '500':
+          description: Internal server error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /tutor/v1/content/{content_id}/knowledge-items:
+    get:
+      tags:
+      - Content
+      summary: Get knowledge items for specific content
+      description: Retrieves a comprehensive list of knowledge items associated with the specified content, including details about questions and answers related to each item.
+      operationId: get_knowledge_items_for_content_tutor_v1_content__content_id__knowledge_items_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: content_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: The UUID of the content to retrieve knowledge items for
+          title: Content Id
+        description: The UUID of the content to retrieve knowledge items for
+      responses:
+        '200':
+          description: Successfully retrieved knowledge items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                title: Response Get Knowledge Items For Content Tutor V1 Content  Content Id  Knowledge Items Get
+              example:
+              - id: a1311ee1-0393-41e9-9b9c-388697a83e3d
+                name: Python Variables
+                description: Understanding variable declaration and assignment in Python
+                total_questions: 5
+                correct_answers: 4
+                incorrect_answers: 1
+                questions:
+                - id: b2422ff2-1404-52ea-ba0d-499798794112
+                  text: What is a variable in Python?
+                  answers:
+                  - A container for storing data values
+                  - A function in Python
+                  - A loop construct
+        '403':
+          description: Unauthorized access
+        '404':
+          description: Content not found
+        '500':
+          description: Internal server error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /tutor/v1/content/visualise:
+    post:
+      tags:
+      - Content
+      summary: Generate a Mermaid diagram visualization
+      description: "Generate a Mermaid diagram visualization based on content and diagram type.\n    \n    This endpoint analyzes the content and creates a visual representation using Mermaid markdown syntax.\n    The visualization can be of different types:\n    - document-structure: Shows the hierarchical structure of the document\n    - concept-map: Shows relationships between main concepts and supporting ideas\n    - learning-plan: Shows the learning journey with prerequisites and next steps\n    - notes-organisation: Organizes lecture notes into structured categories\n    \n    Parameters:\n    - **contentId**: UUID of the content to visualize (if found in database)\n    - **type**: Type of diagram to generate\n    - **prompt**: Additional context or instructions (will be used if contentId is not found)\n    \n    Returns:\n    - A Mermaid markdown diagram that can be rendered by the client"
+      operationId: visualise_content_tutor_v1_content_visualise_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VisualisationRequest'
+        required: true
+      responses:
+        '200':
+          description: Successfully generated visualization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VisualisationResponse'
+        '404':
+          description: Content not found and no prompt provided
+        '400':
+          description: Invalid diagram type
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+components:
+  schemas:
+    ContentProcessingStatusDTO:
+      properties:
+        status:
+          type: string
+          title: Status
+          description: Status of the content processing task
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+          description: Error message if the task failed
+        contentId:
+          type: string
+          title: Contentid
+          description: Unique identifier for the content
+        taskId:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Taskid
+          description: Unique identifier for the task
+        processedParts:
+          type: integer
+          title: Processedparts
+          description: Number of processed content parts
+        totalParts:
+          type: integer
+          title: Totalparts
+          description: Total number of content parts
+      type: object
+      required:
+      - status
+      - contentId
+      - processedParts
+      - totalParts
+      title: ContentProcessingStatusDTO
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    VisualisationRequest:
+      properties:
+        content_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Content Id
+        type:
+          type: string
+          title: Type
+        prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Prompt
+      type: object
+      required:
+      - type
+      title: VisualisationRequest
+    KnowledgeItemDto:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+          description: Unique identifier for the knowledge item
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+          description: Name of the knowledge item
+        description:
+          type: string
+          title: Description
+          description: Description of the knowledge item
+        contentPartId:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: string
+          title: Contentpartid
+          description: ID of the content part this knowledge item belongs to
+        contentId:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: string
+          title: Contentid
+          description: ID of the content this knowledge item belongs to
+      type: object
+      required:
+      - id
+      - description
+      - contentPartId
+      - contentId
+      title: KnowledgeItemDto
+    WisdomIdDto:
+      properties:
+        wisdomId:
+          type: string
+          format: uuid
+          title: Wisdomid
+          description: Unique identifier for the wisdom
+        contentId:
+          type: string
+          format: uuid
+          title: Contentid
+          description: ID of the content this wisdom belongs to
+        contentTitle:
+          type: string
+          title: Contenttitle
+          description: Title of the content
+        createdAt:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Createdat
+          description: Timestamp when the wisdom was created
+      type: object
+      required:
+      - wisdomId
+      - contentId
+      - contentTitle
+      title: WisdomIdDto
+    TaskStatusDto:
+      properties:
+        task_id:
+          type: string
+          title: Task Id
+          description: UUID of the task
+        content_id:
+          type: string
+          title: Content Id
+          description: UUID of the associated content
+        status:
+          type: string
+          title: Status
+          description: Current status of the task
+        createdAt:
+          type: string
+          format: date-time
+          title: Createdat
+          description: Timestamp of task creation
+        updatedAt:
+          type: string
+          format: date-time
+          title: Updatedat
+          description: Timestamp of last task update
+      type: object
+      required:
+      - task_id
+      - content_id
+      - status
+      - createdAt
+      - updatedAt
+      title: TaskStatusDto
+    TextRequest:
+      properties:
+        text:
+          type: string
+          title: Text
+      type: object
+      required:
+      - text
+      title: TextRequest
+    Body_chat_file_tutor_v1_content_chat_file_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+      type: object
+      required:
+      - file
+      title: Body_chat_file_tutor_v1_content_chat_file_post
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    VisualisationResponse:
+      properties:
+        mermaidMarkdown:
+          type: string
+          title: Mermaidmarkdown
+          description: Generated Mermaid markdown diagram
+      type: object
+      required:
+      - mermaidMarkdown
+      title: VisualisationResponse
+    ContentQuizStatsDto:
+      properties:
+        contentId:
+          type: string
+          format: uuid
+          title: Contentid
+          description: ID of the content
+        contentTitle:
+          type: string
+          title: Contenttitle
+          description: Title of the content
+        contentAuthor:
+          type: string
+          title: Contentauthor
+          description: Author of the content
+        confidenceScore:
+          type: number
+          title: Confidencescore
+          description: Confidence score for the content
+        totalQuestionsAttempted:
+          type: integer
+          title: Totalquestionsattempted
+          description: Total number of questions attempted
+        totalCorrectAnswers:
+          type: integer
+          title: Totalcorrectanswers
+          description: Total number of correct answers
+        totalKnowledgeItems:
+          type: integer
+          title: Totalknowledgeitems
+          description: Total number of knowledge items
+        knowledgeItemsWithCorrectAnswers:
+          type: integer
+          title: Knowledgeitemswithcorrectanswers
+          description: Number of knowledge items with correct answers
+        totalTime:
+          type: number
+          title: Totaltime
+          description: Total time spent on quizzes for this content
+        totalContentParts:
+          type: integer
+          title: Totalcontentparts
+          description: Total number of content parts for the content
+        totalContentKnowledgeItems:
+          type: integer
+          title: Totalcontentknowledgeitems
+          description: Total number of knowledge items for the content
+        sessions:
+          items:
+            $ref: '#/components/schemas/QuizSessionStatsDto'
+          type: array
+          title: Sessions
+          description: List of quiz session statistics
+      type: object
+      required:
+      - contentId
+      - contentTitle
+      - contentAuthor
+      - confidenceScore
+      - totalQuestionsAttempted
+      - totalCorrectAnswers
+      - totalKnowledgeItems
+      - knowledgeItemsWithCorrectAnswers
+      - totalTime
+      - totalContentParts
+      - totalContentKnowledgeItems
+      - sessions
+      title: ContentQuizStatsDto
+    WisdomDto:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+          description: Unique identifier for the wisdom
+        contentId:
+          type: string
+          format: uuid
+          title: Contentid
+          description: ID of the content this wisdom belongs to
+        contentTitle:
+          type: string
+          title: Contenttitle
+          description: Title of the content
+        wisdom:
+          type: object
+          title: Wisdom
+          description: The extracted wisdom in JSON format
+        createdAt:
+          type: string
+          format: date-time
+          title: Createdat
+          description: Timestamp when the wisdom was created
+      type: object
+      required:
+      - id
+      - contentId
+      - contentTitle
+      - wisdom
+      - createdAt
+      title: WisdomDto
+    ContentConfidenceScoreDto:
+      properties:
+        contentId:
+          type: string
+          format: uuid
+          title: Contentid
+          description: Content ID this score is for
+        confidenceScore:
+          type: number
+          title: Confidencescore
+          description: Confidence score
+      type: object
+      required:
+      - contentId
+      - confidenceScore
+      title: ContentConfidenceScoreDto
+    QuizSessionStatsDto:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+          description: Unique identifier for the quiz session
+        userId:
+          type: string
+          title: Userid
+          description: ID of the user
+        contentId:
+          type: string
+          format: uuid
+          title: Contentid
+          description: ID of the content
+        contentTitle:
+          type: string
+          title: Contenttitle
+          description: Title of the content
+        contentAuthor:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Contentauthor
+          description: Author of the content
+        questionCount:
+          type: integer
+          title: Questioncount
+          description: Total number of questions
+        correctAnswerCount:
+          type: integer
+          title: Correctanswercount
+          description: Number of correct answers
+        incorrectAnswerCount:
+          type: integer
+          title: Incorrectanswercount
+          description: Number of incorrect answers
+        answeredQuestionCount:
+          type: integer
+          title: Answeredquestioncount
+          description: Total number of answered questions
+        totalTime:
+          anyOf:
+          - type: number
+          - type: string
+            format: duration
+          - type: 'null'
+          title: Totaltime
+          description: Total time spent on the quiz in seconds
+        knowledgeItemCount:
+          type: integer
+          title: Knowledgeitemcount
+          description: Total number of knowledge items
+        coveredKnowledgeItemsCount:
+          type: integer
+          title: Coveredknowledgeitemscount
+          description: Number of knowledge items covered
+        sessionStartTime:
+          type: string
+          format: date-time
+          title: Sessionstarttime
+          description: Start time of the quiz session
+        lastAnsweredTime:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Lastansweredtime
+          description: Time of the last answered question
+        knowledgeItems:
+          items:
+            $ref: '#/components/schemas/KnowledgeItemDto'
+          type: array
+          title: Knowledgeitems
+          description: List of knowledge items
+        correctPercentage:
+          type: number
+          title: Correctpercentage
+          readOnly: true
+      type: object
+      required:
+      - id
+      - userId
+      - contentId
+      - contentTitle
+      - contentAuthor
+      - questionCount
+      - correctAnswerCount
+      - incorrectAnswerCount
+      - answeredQuestionCount
+      - knowledgeItemCount
+      - coveredKnowledgeItemsCount
+      - sessionStartTime
+      - knowledgeItems
+      - correctPercentage
+      title: QuizSessionStatsDto
+    IndexedFileDto:
+      properties:
+        contentId:
+          type: string
+          title: Contentid
+          description: Unique identifier for the content
+        format:
+          type: string
+          title: Format
+          description: Format of the file
+        title:
+          type: string
+          title: Title
+          description: Title of the file
+      type: object
+      required:
+      - contentId
+      - format
+      - title
+      title: IndexedFileDto
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
