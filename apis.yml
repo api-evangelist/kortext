@@ -32,18 +32,17 @@ specificationVersion: '0.20'
 created: '2026-08-23'
 modified: '2026-08-23'
 tags:
-- Company
-- Education
-- EdTech
-- Higher Education
-- Digital Textbooks
-- Learning Analytics
-- Artificial Intelligence
-- Content Delivery
-- LTI
-- Libraries
-- Student Engagement
-- Publishing
+- education
+- edtech
+- higher-education
+- digital-textbooks
+- learning-analytics
+- artificial-intelligence
+- content-delivery
+- lti
+- libraries
+- student-engagement
+- publishing
 tags_raw:
 - education
 - edtech
@@ -68,11 +67,11 @@ apis:
   humanURL: https://kortext.com/blog/platform-updates/how-we-integrate-with-your-workflow/
   baseURL: https://vle.kortext.com
   tags:
-  - LTI
-  - Education
-  - Higher Education
-  - Libraries
-  - Content Delivery
+  - lti
+  - education
+  - higher-education
+  - libraries
+  - content-delivery
   tags_raw:
   - lti
   - education
@@ -94,10 +93,10 @@ apis:
   humanURL: https://app.kortext.com/identity/signin
   baseURL: https://app.kortext.com
   tags:
-  - Education
-  - Content Delivery
-  - Higher Education
-  - Digital Textbooks
+  - education
+  - content-delivery
+  - higher-education
+  - digital-textbooks
   tags_raw:
   - education
   - content-delivery
@@ -244,6 +243,8 @@ apis:
   humanURL: https://api-demo.labs.kortext.com/docs
   baseURL: https://api-demo.labs.kortext.com
   tags:
+  - ReadingList
+  tags_raw:
   - Reading List
   properties:
   - type: OpenAPI
@@ -265,7 +266,8 @@ apis:
   description: The Test API from Kortext — 2 operation(s) for test.
   humanURL: https://api-demo.labs.kortext.com/docs
   baseURL: https://api-demo.labs.kortext.com
-  tags:
+  tags: []
+  tags_raw:
   - Test
   properties:
   - type: OpenAPI
