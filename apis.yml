@@ -213,6 +213,8 @@ apis:
   humanURL: https://api-demo.labs.kortext.com/docs
   baseURL: https://api-demo.labs.kortext.com
   tags:
+  - Podcasts
+  tags_raw:
   - Podcast
   properties:
   - type: OpenAPI
