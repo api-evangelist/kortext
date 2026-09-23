@@ -1,0 +1,27 @@
+# Front Door AI Index — kortext — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: kortext
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: kortext.com
+  final_host: kortext.com
+  ownership: own
+  owner: kortext
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 11
+  host_score: 11
+  density: 11.26
+  words: 977
+  tiers:
+    agentic: 3
+    core: 8
+    model: 0
+  ambiguous: 3
+  top_terms:
+    AI: 8
+    AI assistant: 3
+    smart: 3

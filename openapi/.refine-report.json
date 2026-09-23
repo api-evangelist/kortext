@@ -1,0 +1,43 @@
+{
+  "provider": "kortext",
+  "sources": [
+    "_original/kortext-labs-api-openapi.json"
+  ],
+  "outputs": [
+    "kortext-chat-api-openapi.yml",
+    "kortext-content-api-openapi.yml",
+    "kortext-health-checks-api-openapi.yml",
+    "kortext-labs-api-openapi.yml",
+    "kortext-podcast-api-openapi.yml",
+    "kortext-quiz-api-openapi.yml",
+    "kortext-reading-list-api-openapi.yml",
+    "kortext-test-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "kortext-labs-api-openapi.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "kortext-labs-api-openapi.json: declared missing tag: Chat",
+    "kortext-labs-api-openapi.json: declared missing tag: Content",
+    "kortext-labs-api-openapi.json: declared missing tag: Health Checks",
+    "kortext-labs-api-openapi.json: declared missing tag: Labs",
+    "kortext-labs-api-openapi.json: declared missing tag: Podcast",
+    "kortext-labs-api-openapi.json: declared missing tag: Quiz",
+    "kortext-labs-api-openapi.json: declared missing tag: Reading List",
+    "kortext-labs-api-openapi.json: declared missing tag: Test",
+    "kortext-labs-api-openapi.json: declared missing tag: podcast",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "kortext-chat-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kortext-content-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kortext-health-checks-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kortext-labs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kortext-podcast-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kortext-quiz-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kortext-reading-list-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kortext-test-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}

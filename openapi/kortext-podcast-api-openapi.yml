@@ -10,7 +10,27 @@ paths:
       tags:
       - Podcast
       summary: Create Podcast
-      description: "Create a new podcast from content.\n\nArgs:\n    content_id: ID of content to create podcast from\n    title: Title for the podcast\n    voice1: Voice to use for first speaker (default: Jenny)\n    voice2: Voice to use for second speaker (default: Guy)\n    current_user: Current authenticated user\n    db: Database session\n\nReturns:\n    Created podcast document"
+      description: 'Create a new podcast from content.
+
+
+        Args:
+
+        content_id: ID of content to create podcast from
+
+        title: Title for the podcast
+
+        voice1: Voice to use for first speaker (default: Jenny)
+
+        voice2: Voice to use for second speaker (default: Guy)
+
+        current_user: Current authenticated user
+
+        db: Database session
+
+
+        Returns:
+
+        Created podcast document'
       operationId: create_podcast_podcast_v1_content__content_id__podcast_post
       security:
       - HTTPBearer: []
@@ -44,7 +64,21 @@ paths:
       tags:
       - Podcast
       summary: List Podcasts
-      description: "List all podcasts accessible by current user with pagination.\n\nArgs:\n    page: Page number\n    page_size: Items per page\n    current_user: Current authenticated user\n\nReturns:\n    Paginated list of podcasts"
+      description: 'List all podcasts accessible by current user with pagination.
+
+
+        Args:
+
+        page: Page number
+
+        page_size: Items per page
+
+        current_user: Current authenticated user
+
+
+        Returns:
+
+        Paginated list of podcasts'
       operationId: list_podcasts_podcast_v1_podcasts_get
       security:
       - HTTPBearer: []
@@ -88,7 +122,24 @@ paths:
       tags:
       - Podcast
       summary: Get Podcast
-      description: "Get podcast details by ID if user has access.\n\nArgs:\n    podcast_id: ID of the podcast to retrieve\n    current_user: Current authenticated user\n\nReturns:\n    Podcast details including audio URL and script\n    \nRaises:\n    HTTPException: If podcast not found or user lacks access"
+      description: 'Get podcast details by ID if user has access.
+
+
+        Args:
+
+        podcast_id: ID of the podcast to retrieve
+
+        current_user: Current authenticated user
+
+
+        Returns:
+
+        Podcast details including audio URL and script
+
+
+        Raises:
+
+        HTTPException: If podcast not found or user lacks access'
       operationId: get_podcast_podcast_v1_podcasts__podcast_id__get
       security:
       - HTTPBearer: []
@@ -116,7 +167,23 @@ paths:
       tags:
       - Podcast
       summary: Delete Podcast
-      description: "Delete a podcast.\n\nArgs:\n    podcast_id: ID of the podcast to delete\n    current_user: Current authenticated user\n    \nRaises:\n    HTTPException: \n        - 404: If podcast not found\n        - 500: If there's an error deleting the podcast or its audio file"
+      description: 'Delete a podcast.
+
+
+        Args:
+
+        podcast_id: ID of the podcast to delete
+
+        current_user: Current authenticated user
+
+
+        Raises:
+
+        HTTPException:
+
+        - 404: If podcast not found
+
+        - 500: If there''s an error deleting the podcast or its audio file'
       operationId: delete_podcast_podcast_v1_podcasts__podcast_id__delete
       security:
       - HTTPBearer: []
@@ -142,32 +209,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    Body_create_podcast_podcast_v1_content__content_id__podcast_post:
-      properties:
-        title:
-          type: string
-          title: Title
-        voice1:
-          type: string
-          title: Voice1
-          default: Jenny
-        voice2:
-          type: string
-          title: Voice2
-          default: Guy
-      type: object
-      required:
-      - title
-      title: Body_create_podcast_podcast_v1_content__content_id__podcast_post
     PodcastResponseDto:
       properties:
         id:
@@ -213,27 +254,23 @@ components:
       - title
       title: PodcastResponseDto
       description: Schema for document response.
-    ValidationError:
+    Body_create_podcast_podcast_v1_content__content_id__podcast_post:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        title:
           type: string
-          title: Message
-        type:
+          title: Title
+        voice1:
           type: string
-          title: Error Type
+          title: Voice1
+          default: Jenny
+        voice2:
+          type: string
+          title: Voice2
+          default: Guy
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - title
+      title: Body_create_podcast_podcast_v1_content__content_id__podcast_post
     PaginatedPodcastResponse:
       properties:
         items:
@@ -267,6 +304,36 @@ components:
       - totalPages
       title: PaginatedPodcastResponse
       description: Paginated response for podcasts.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
   securitySchemes:
     HTTPBearer:
       type: http
