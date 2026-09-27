@@ -747,204 +747,6 @@ paths:
       - HTTPBearer: []
 components:
   schemas:
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    WisdomIdDto:
-      properties:
-        wisdomId:
-          type: string
-          format: uuid
-          title: Wisdomid
-          description: Unique identifier for the wisdom
-        contentId:
-          type: string
-          format: uuid
-          title: Contentid
-          description: ID of the content this wisdom belongs to
-        contentTitle:
-          type: string
-          title: Contenttitle
-          description: Title of the content
-        createdAt:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Createdat
-          description: Timestamp when the wisdom was created
-      type: object
-      required:
-      - wisdomId
-      - contentId
-      - contentTitle
-      title: WisdomIdDto
-    ContentProcessingStatusDTO:
-      properties:
-        status:
-          type: string
-          title: Status
-          description: Status of the content processing task
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-          description: Error message if the task failed
-        contentId:
-          type: string
-          title: Contentid
-          description: Unique identifier for the content
-        taskId:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Taskid
-          description: Unique identifier for the task
-        processedParts:
-          type: integer
-          title: Processedparts
-          description: Number of processed content parts
-        totalParts:
-          type: integer
-          title: Totalparts
-          description: Total number of content parts
-      type: object
-      required:
-      - status
-      - contentId
-      - processedParts
-      - totalParts
-      title: ContentProcessingStatusDTO
-    TaskStatusDto:
-      properties:
-        task_id:
-          type: string
-          title: Task Id
-          description: UUID of the task
-        content_id:
-          type: string
-          title: Content Id
-          description: UUID of the associated content
-        status:
-          type: string
-          title: Status
-          description: Current status of the task
-        createdAt:
-          type: string
-          format: date-time
-          title: Createdat
-          description: Timestamp of task creation
-        updatedAt:
-          type: string
-          format: date-time
-          title: Updatedat
-          description: Timestamp of last task update
-      type: object
-      required:
-      - task_id
-      - content_id
-      - status
-      - createdAt
-      - updatedAt
-      title: TaskStatusDto
-    VisualisationResponse:
-      properties:
-        mermaidMarkdown:
-          type: string
-          title: Mermaidmarkdown
-          description: Generated Mermaid markdown diagram
-      type: object
-      required:
-      - mermaidMarkdown
-      title: VisualisationResponse
-    ContentQuizStatsDto:
-      properties:
-        contentId:
-          type: string
-          format: uuid
-          title: Contentid
-          description: ID of the content
-        contentTitle:
-          type: string
-          title: Contenttitle
-          description: Title of the content
-        contentAuthor:
-          type: string
-          title: Contentauthor
-          description: Author of the content
-        confidenceScore:
-          type: number
-          title: Confidencescore
-          description: Confidence score for the content
-        totalQuestionsAttempted:
-          type: integer
-          title: Totalquestionsattempted
-          description: Total number of questions attempted
-        totalCorrectAnswers:
-          type: integer
-          title: Totalcorrectanswers
-          description: Total number of correct answers
-        totalKnowledgeItems:
-          type: integer
-          title: Totalknowledgeitems
-          description: Total number of knowledge items
-        knowledgeItemsWithCorrectAnswers:
-          type: integer
-          title: Knowledgeitemswithcorrectanswers
-          description: Number of knowledge items with correct answers
-        totalTime:
-          type: number
-          title: Totaltime
-          description: Total time spent on quizzes for this content
-        totalContentParts:
-          type: integer
-          title: Totalcontentparts
-          description: Total number of content parts for the content
-        totalContentKnowledgeItems:
-          type: integer
-          title: Totalcontentknowledgeitems
-          description: Total number of knowledge items for the content
-        sessions:
-          items:
-            $ref: '#/components/schemas/QuizSessionStatsDto'
-          type: array
-          title: Sessions
-          description: List of quiz session statistics
-      type: object
-      required:
-      - contentId
-      - contentTitle
-      - contentAuthor
-      - confidenceScore
-      - totalQuestionsAttempted
-      - totalCorrectAnswers
-      - totalKnowledgeItems
-      - knowledgeItemsWithCorrectAnswers
-      - totalTime
-      - totalContentParts
-      - totalContentKnowledgeItems
-      - sessions
-      title: ContentQuizStatsDto
     KnowledgeItemDto:
       properties:
         id:
@@ -983,6 +785,167 @@ components:
       - contentPartId
       - contentId
       title: KnowledgeItemDto
+    WisdomDto:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+          description: Unique identifier for the wisdom
+        contentId:
+          type: string
+          format: uuid
+          title: Contentid
+          description: ID of the content this wisdom belongs to
+        contentTitle:
+          type: string
+          title: Contenttitle
+          description: Title of the content
+        wisdom:
+          type: object
+          title: Wisdom
+          description: The extracted wisdom in JSON format
+        createdAt:
+          type: string
+          format: date-time
+          title: Createdat
+          description: Timestamp when the wisdom was created
+      type: object
+      required:
+      - id
+      - contentId
+      - contentTitle
+      - wisdom
+      - createdAt
+      title: WisdomDto
+    VisualisationResponse:
+      properties:
+        mermaidMarkdown:
+          type: string
+          title: Mermaidmarkdown
+          description: Generated Mermaid markdown diagram
+      type: object
+      required:
+      - mermaidMarkdown
+      title: VisualisationResponse
+    IndexedFileDto:
+      properties:
+        contentId:
+          type: string
+          title: Contentid
+          description: Unique identifier for the content
+        format:
+          type: string
+          title: Format
+          description: Format of the file
+        title:
+          type: string
+          title: Title
+          description: Title of the file
+      type: object
+      required:
+      - contentId
+      - format
+      - title
+      title: IndexedFileDto
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ContentConfidenceScoreDto:
+      properties:
+        contentId:
+          type: string
+          format: uuid
+          title: Contentid
+          description: Content ID this score is for
+        confidenceScore:
+          type: number
+          title: Confidencescore
+          description: Confidence score
+      type: object
+      required:
+      - contentId
+      - confidenceScore
+      title: ContentConfidenceScoreDto
+    TaskStatusDto:
+      properties:
+        task_id:
+          type: string
+          title: Task Id
+          description: UUID of the task
+        content_id:
+          type: string
+          title: Content Id
+          description: UUID of the associated content
+        status:
+          type: string
+          title: Status
+          description: Current status of the task
+        createdAt:
+          type: string
+          format: date-time
+          title: Createdat
+          description: Timestamp of task creation
+        updatedAt:
+          type: string
+          format: date-time
+          title: Updatedat
+          description: Timestamp of last task update
+      type: object
+      required:
+      - task_id
+      - content_id
+      - status
+      - createdAt
+      - updatedAt
+      title: TaskStatusDto
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    VisualisationRequest:
+      properties:
+        content_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Content Id
+        type:
+          type: string
+          title: Type
+        prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Prompt
+      type: object
+      required:
+      - type
+      title: VisualisationRequest
     QuizSessionStatsDto:
       properties:
         id:
@@ -1080,6 +1043,74 @@ components:
       - knowledgeItems
       - correctPercentage
       title: QuizSessionStatsDto
+    ContentQuizStatsDto:
+      properties:
+        contentId:
+          type: string
+          format: uuid
+          title: Contentid
+          description: ID of the content
+        contentTitle:
+          type: string
+          title: Contenttitle
+          description: Title of the content
+        contentAuthor:
+          type: string
+          title: Contentauthor
+          description: Author of the content
+        confidenceScore:
+          type: number
+          title: Confidencescore
+          description: Confidence score for the content
+        totalQuestionsAttempted:
+          type: integer
+          title: Totalquestionsattempted
+          description: Total number of questions attempted
+        totalCorrectAnswers:
+          type: integer
+          title: Totalcorrectanswers
+          description: Total number of correct answers
+        totalKnowledgeItems:
+          type: integer
+          title: Totalknowledgeitems
+          description: Total number of knowledge items
+        knowledgeItemsWithCorrectAnswers:
+          type: integer
+          title: Knowledgeitemswithcorrectanswers
+          description: Number of knowledge items with correct answers
+        totalTime:
+          type: number
+          title: Totaltime
+          description: Total time spent on quizzes for this content
+        totalContentParts:
+          type: integer
+          title: Totalcontentparts
+          description: Total number of content parts for the content
+        totalContentKnowledgeItems:
+          type: integer
+          title: Totalcontentknowledgeitems
+          description: Total number of knowledge items for the content
+        sessions:
+          items:
+            $ref: '#/components/schemas/QuizSessionStatsDto'
+          type: array
+          title: Sessions
+          description: List of quiz session statistics
+      type: object
+      required:
+      - contentId
+      - contentTitle
+      - contentAuthor
+      - confidenceScore
+      - totalQuestionsAttempted
+      - totalCorrectAnswers
+      - totalKnowledgeItems
+      - knowledgeItemsWithCorrectAnswers
+      - totalTime
+      - totalContentParts
+      - totalContentKnowledgeItems
+      - sessions
+      title: ContentQuizStatsDto
     Body_chat_file_tutor_v1_content_chat_file_post:
       properties:
         file:
@@ -1090,41 +1121,21 @@ components:
       required:
       - file
       title: Body_chat_file_tutor_v1_content_chat_file_post
-    HTTPValidationError:
+    TextRequest:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    IndexedFileDto:
-      properties:
-        contentId:
+        text:
           type: string
-          title: Contentid
-          description: Unique identifier for the content
-        format:
-          type: string
-          title: Format
-          description: Format of the file
-        title:
-          type: string
-          title: Title
-          description: Title of the file
+          title: Text
       type: object
       required:
-      - contentId
-      - format
-      - title
-      title: IndexedFileDto
-    WisdomDto:
+      - text
+      title: TextRequest
+    WisdomIdDto:
       properties:
-        id:
+        wisdomId:
           type: string
           format: uuid
-          title: Id
+          title: Wisdomid
           description: Unique identifier for the wisdom
         contentId:
           type: string
@@ -1135,68 +1146,57 @@ components:
           type: string
           title: Contenttitle
           description: Title of the content
-        wisdom:
-          type: object
-          title: Wisdom
-          description: The extracted wisdom in JSON format
         createdAt:
-          type: string
-          format: date-time
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
           title: Createdat
           description: Timestamp when the wisdom was created
       type: object
       required:
-      - id
+      - wisdomId
       - contentId
       - contentTitle
-      - wisdom
-      - createdAt
-      title: WisdomDto
-    TextRequest:
+      title: WisdomIdDto
+    ContentProcessingStatusDTO:
       properties:
-        text:
+        status:
           type: string
-          title: Text
-      type: object
-      required:
-      - text
-      title: TextRequest
-    ContentConfidenceScoreDto:
-      properties:
+          title: Status
+          description: Status of the content processing task
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+          description: Error message if the task failed
         contentId:
           type: string
-          format: uuid
           title: Contentid
-          description: Content ID this score is for
-        confidenceScore:
-          type: number
-          title: Confidencescore
-          description: Confidence score
-      type: object
-      required:
-      - contentId
-      - confidenceScore
-      title: ContentConfidenceScoreDto
-    VisualisationRequest:
-      properties:
-        content_id:
+          description: Unique identifier for the content
+        taskId:
           anyOf:
           - type: string
             format: uuid
           - type: 'null'
-          title: Content Id
-        type:
-          type: string
-          title: Type
-        prompt:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Prompt
+          title: Taskid
+          description: Unique identifier for the task
+        processedParts:
+          type: integer
+          title: Processedparts
+          description: Number of processed content parts
+        totalParts:
+          type: integer
+          title: Totalparts
+          description: Total number of content parts
       type: object
       required:
-      - type
-      title: VisualisationRequest
+      - status
+      - contentId
+      - processedParts
+      - totalParts
+      title: ContentProcessingStatusDTO
   securitySchemes:
     HTTPBearer:
       type: http

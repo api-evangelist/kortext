@@ -54,7 +54,7 @@ tags:
 - Artificial Intelligence
 - Content Delivery
 - LTI
-- Libraries
+- Library
 - Student Engagement
 - Publishing
 tags_raw:
@@ -69,6 +69,7 @@ tags_raw:
 - libraries
 - student-engagement
 - publishing
+- Libraries
 apis:
 - name: Kortext VLE / LTI Integration API
   description: >-
@@ -84,7 +85,7 @@ apis:
   - LTI
   - Education
   - Higher Education
-  - Libraries
+  - Library
   - Content Delivery
   tags_raw:
   - lti
@@ -92,6 +93,7 @@ apis:
   - higher-education
   - libraries
   - content-delivery
+  - Libraries
   properties:
   - type: Documentation
     url: https://kortext.com/blog/platform-updates/how-we-integrate-with-your-workflow/
