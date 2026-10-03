@@ -230,6 +230,48 @@ components:
       - msg
       - type
       title: ValidationError
+    PaginatedPodcastResponse:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/PodcastResponseDto'
+          type: array
+          title: Items
+          description: List of podcast documents
+        total:
+          type: integer
+          title: Total
+          description: Total number of documents
+        page:
+          type: integer
+          title: Page
+          description: Current page number
+        pageSize:
+          type: integer
+          title: Pagesize
+          description: Number of items per page
+        totalPages:
+          type: integer
+          title: Totalpages
+          description: Total number of pages
+      type: object
+      required:
+      - items
+      - total
+      - page
+      - pageSize
+      - totalPages
+      title: PaginatedPodcastResponse
+      description: Paginated response for podcasts.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     PodcastResponseDto:
       properties:
         id:
@@ -292,48 +334,6 @@ components:
       required:
       - title
       title: Body_create_podcast_podcast_v1_content__content_id__podcast_post
-    PaginatedPodcastResponse:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/PodcastResponseDto'
-          type: array
-          title: Items
-          description: List of podcast documents
-        total:
-          type: integer
-          title: Total
-          description: Total number of documents
-        page:
-          type: integer
-          title: Page
-          description: Current page number
-        pageSize:
-          type: integer
-          title: Pagesize
-          description: Number of items per page
-        totalPages:
-          type: integer
-          title: Totalpages
-          description: Total number of pages
-      type: object
-      required:
-      - items
-      - total
-      - page
-      - pageSize
-      - totalPages
-      title: PaginatedPodcastResponse
-      description: Paginated response for podcasts.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
   securitySchemes:
     HTTPBearer:
       type: http

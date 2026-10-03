@@ -412,32 +412,125 @@ paths:
       - HTTPBearer: []
 components:
   schemas:
-    CreateQuizSessionFromUrlDto:
+    QuizSessionQuestionDto:
+      properties:
+        quizSessionId:
+          type: string
+          format: uuid
+          title: Quizsessionid
+          description: Unique identifier for the quiz session
+        question:
+          $ref: '#/components/schemas/QuizQuestionDto'
+      type: object
+      required:
+      - quizSessionId
+      - question
+      title: QuizSessionQuestionDto
+    ContentType:
+      type: string
+      enum:
+      - K
+      - U
+      title: ContentType
+    ContentGroupDto:
       properties:
         contentId:
           type: string
-          format: uuid
           title: Contentid
-          description: Content ID this session is for
-        url:
+        contentTitle:
           type: string
-          title: Url
-          description: URL to generate quiz from
-        title:
+          title: Contenttitle
+        contentAuthor:
           type: string
-          title: Title
-          description: Title of the quiz session
-        numQuestions:
+          title: Contentauthor
+        totalKnowledgeItems:
           type: integer
-          title: Numquestions
-          description: Number of questions to generate
-          default: 5
+          title: Totalknowledgeitems
+          default: 0
+        totalCoveredKnowledgeItems:
+          type: integer
+          title: Totalcoveredknowledgeitems
+        totalQuestions:
+          type: integer
+          title: Totalquestions
+        totalCorrectAnswers:
+          type: integer
+          title: Totalcorrectanswers
+        confidenceScore:
+          type: number
+          title: Confidencescore
+        sessions:
+          items:
+            $ref: '#/components/schemas/QuizSessionStatsDto'
+          type: array
+          title: Sessions
       type: object
       required:
       - contentId
-      - url
-      - title
-      title: CreateQuizSessionFromUrlDto
+      - contentTitle
+      - contentAuthor
+      - totalCoveredKnowledgeItems
+      - totalQuestions
+      - totalCorrectAnswers
+      - confidenceScore
+      - sessions
+      title: ContentGroupDto
+    CreateQuizSessionDto:
+      properties:
+        contentId:
+          type: string
+          maxLength: 40
+          minLength: 1
+          title: Content ID
+          description: Content ID for the quiz session
+        pageId:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Page ID
+          description: Page ID for the quiz session
+        pageNumber:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Page Number
+          description: Page Number for the quiz session
+        contentType:
+          $ref: '#/components/schemas/ContentType'
+          title: Content Type
+          description: Content Type for the quiz session
+      type: object
+      required:
+      - contentId
+      - contentType
+      title: CreateQuizSessionDto
+    QuizAnswerDto:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+          description: Unique identifier for the answer
+        questionId:
+          type: string
+          format: uuid
+          title: Questionid
+          description: The question this answer belongs to
+        text:
+          type: string
+          title: Text
+          description: The answer text
+        isCorrect:
+          type: boolean
+          title: Iscorrect
+          description: Whether this is the correct answer
+      type: object
+      required:
+      - id
+      - questionId
+      - text
+      - isCorrect
+      title: QuizAnswerDto
     QuizAttemptDto:
       properties:
         id:
@@ -472,229 +565,6 @@ components:
       - answerId
       - isCorrect
       title: QuizAttemptDto
-    ContentType:
-      type: string
-      enum:
-      - K
-      - U
-      title: ContentType
-    CreateQuizSessionFromTextDto:
-      properties:
-        contentId:
-          type: string
-          format: uuid
-          title: Contentid
-          description: Content ID this session is for
-        text:
-          type: string
-          title: Text
-          description: Text content to generate quiz from
-        title:
-          type: string
-          title: Title
-          description: Title of the quiz session
-        numQuestions:
-          type: integer
-          title: Numquestions
-          description: Number of questions to generate
-          default: 5
-      type: object
-      required:
-      - contentId
-      - text
-      - title
-      title: CreateQuizSessionFromTextDto
-    QuizSessionsDto:
-      properties:
-        quizSessions:
-          items:
-            $ref: '#/components/schemas/ContentGroupDto'
-          type: array
-          title: Quizsessions
-      type: object
-      required:
-      - quizSessions
-      title: QuizSessionsDto
-    KnowledgeItemDto:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-          description: Unique identifier for the knowledge item
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-          description: Name of the knowledge item
-        description:
-          type: string
-          title: Description
-          description: Description of the knowledge item
-        contentPartId:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: string
-          title: Contentpartid
-          description: ID of the content part this knowledge item belongs to
-        contentId:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: string
-          title: Contentid
-          description: ID of the content this knowledge item belongs to
-      type: object
-      required:
-      - id
-      - description
-      - contentPartId
-      - contentId
-      title: KnowledgeItemDto
-    UpdateQuizAnswerAttemptDto:
-      properties:
-        answerId:
-          type: string
-          format: uuid
-          title: Answer ID
-          description: UUID of the quiz answer
-      type: object
-      required:
-      - answerId
-      title: UpdateQuizAnswerAttemptDto
-    PublicQuizQuestionDto:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-          description: Unique identifier for the question
-        question:
-          type: string
-          title: Question
-          description: The text of the question
-        answers:
-          items:
-            $ref: '#/components/schemas/PublicQuizAnswerDto'
-          type: array
-          title: Answers
-          description: List of possible answers
-      type: object
-      required:
-      - id
-      - question
-      - answers
-      title: PublicQuizQuestionDto
-    PublicQuizAnswerDto:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-          description: Unique identifier for the answer
-        text:
-          type: string
-          title: Text
-          description: The text of the answer
-      type: object
-      required:
-      - id
-      - text
-      title: PublicQuizAnswerDto
-    CreateQuizSessionDto:
-      properties:
-        contentId:
-          type: string
-          maxLength: 40
-          minLength: 1
-          title: Content ID
-          description: Content ID for the quiz session
-        pageId:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Page ID
-          description: Page ID for the quiz session
-        pageNumber:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Page Number
-          description: Page Number for the quiz session
-        contentType:
-          $ref: '#/components/schemas/ContentType'
-          title: Content Type
-          description: Content Type for the quiz session
-      type: object
-      required:
-      - contentId
-      - contentType
-      title: CreateQuizSessionDto
-    ContentPartDto:
-      properties:
-        id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: string
-          title: Id
-          description: Unique identifier for the content part
-        contentId:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: string
-          title: Contentid
-          description: ID of the content this part belongs to
-        pageNumber:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Pagenumber
-          description: Page number of the content part
-        pageId:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Pageid
-          description: Page ID of the content part
-        contentType:
-          $ref: '#/components/schemas/ContentType'
-          description: Type of the content
-        contentText:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Contenttext
-          description: Text of the content part
-      type: object
-      required:
-      - id
-      - contentId
-      - contentType
-      title: ContentPartDto
-    CreateQuizSessionQuestionDto:
-      properties:
-        quizSessionId:
-          type: string
-          format: uuid
-          title: Session ID
-          description: UUID of the quiz session
-      type: object
-      required:
-      - quizSessionId
-      title: CreateQuizSessionQuestionDto
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     QuizSessionStatsDto:
       properties:
         id:
@@ -792,49 +662,6 @@ components:
       - knowledgeItems
       - correctPercentage
       title: QuizSessionStatsDto
-    ContentGroupDto:
-      properties:
-        contentId:
-          type: string
-          title: Contentid
-        contentTitle:
-          type: string
-          title: Contenttitle
-        contentAuthor:
-          type: string
-          title: Contentauthor
-        totalKnowledgeItems:
-          type: integer
-          title: Totalknowledgeitems
-          default: 0
-        totalCoveredKnowledgeItems:
-          type: integer
-          title: Totalcoveredknowledgeitems
-        totalQuestions:
-          type: integer
-          title: Totalquestions
-        totalCorrectAnswers:
-          type: integer
-          title: Totalcorrectanswers
-        confidenceScore:
-          type: number
-          title: Confidencescore
-        sessions:
-          items:
-            $ref: '#/components/schemas/QuizSessionStatsDto'
-          type: array
-          title: Sessions
-      type: object
-      required:
-      - contentId
-      - contentTitle
-      - contentAuthor
-      - totalCoveredKnowledgeItems
-      - totalQuestions
-      - totalCorrectAnswers
-      - confidenceScore
-      - sessions
-      title: ContentGroupDto
     QuizQuestionDto:
       properties:
         id:
@@ -858,68 +685,64 @@ components:
       - question
       - answers
       title: QuizQuestionDto
-    QuizSessionQuestionDto:
+    HTTPValidationError:
       properties:
-        quizSessionId:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    CreateQuizSessionFromTextDto:
+      properties:
+        contentId:
           type: string
           format: uuid
-          title: Quizsessionid
-          description: Unique identifier for the quiz session
-        question:
-          $ref: '#/components/schemas/QuizQuestionDto'
+          title: Contentid
+          description: Content ID this session is for
+        text:
+          type: string
+          title: Text
+          description: Text content to generate quiz from
+        title:
+          type: string
+          title: Title
+          description: Title of the quiz session
+        numQuestions:
+          type: integer
+          title: Numquestions
+          description: Number of questions to generate
+          default: 5
       type: object
       required:
-      - quizSessionId
-      - question
-      title: QuizSessionQuestionDto
-    QuizAnswerDto:
+      - contentId
+      - text
+      - title
+      title: CreateQuizSessionFromTextDto
+    PublicQuizQuestionDto:
       properties:
         id:
           type: string
           format: uuid
           title: Id
-          description: Unique identifier for the answer
-        questionId:
+          description: Unique identifier for the question
+        question:
           type: string
-          format: uuid
-          title: Questionid
-          description: The question this answer belongs to
-        text:
-          type: string
-          title: Text
-          description: The answer text
-        isCorrect:
-          type: boolean
-          title: Iscorrect
-          description: Whether this is the correct answer
+          title: Question
+          description: The text of the question
+        answers:
+          items:
+            $ref: '#/components/schemas/PublicQuizAnswerDto'
+          type: array
+          title: Answers
+          description: List of possible answers
       type: object
       required:
       - id
-      - questionId
-      - text
-      - isCorrect
-      title: QuizAnswerDto
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - question
+      - answers
+      title: PublicQuizQuestionDto
     SetQuizAnswerAttemptDto:
       properties:
         sessionId:
@@ -943,6 +766,114 @@ components:
       - questionId
       - answerId
       title: SetQuizAnswerAttemptDto
+    PublicQuizAnswerDto:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+          description: Unique identifier for the answer
+        text:
+          type: string
+          title: Text
+          description: The text of the answer
+      type: object
+      required:
+      - id
+      - text
+      title: PublicQuizAnswerDto
+    UpdateQuizAnswerAttemptDto:
+      properties:
+        answerId:
+          type: string
+          format: uuid
+          title: Answer ID
+          description: UUID of the quiz answer
+      type: object
+      required:
+      - answerId
+      title: UpdateQuizAnswerAttemptDto
+    CreateQuizSessionQuestionDto:
+      properties:
+        quizSessionId:
+          type: string
+          format: uuid
+          title: Session ID
+          description: UUID of the quiz session
+      type: object
+      required:
+      - quizSessionId
+      title: CreateQuizSessionQuestionDto
+    KnowledgeItemDto:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+          description: Unique identifier for the knowledge item
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+          description: Name of the knowledge item
+        description:
+          type: string
+          title: Description
+          description: Description of the knowledge item
+        contentPartId:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: string
+          title: Contentpartid
+          description: ID of the content part this knowledge item belongs to
+        contentId:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: string
+          title: Contentid
+          description: ID of the content this knowledge item belongs to
+      type: object
+      required:
+      - id
+      - description
+      - contentPartId
+      - contentId
+      title: KnowledgeItemDto
+    QuizSessionsDto:
+      properties:
+        quizSessions:
+          items:
+            $ref: '#/components/schemas/ContentGroupDto'
+          type: array
+          title: Quizsessions
+      type: object
+      required:
+      - quizSessions
+      title: QuizSessionsDto
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     PublicQuizSessionQuestionDto:
       properties:
         id:
@@ -972,6 +903,75 @@ components:
       - contentPart
       - knowledgeItem
       title: PublicQuizSessionQuestionDto
+    CreateQuizSessionFromUrlDto:
+      properties:
+        contentId:
+          type: string
+          format: uuid
+          title: Contentid
+          description: Content ID this session is for
+        url:
+          type: string
+          title: Url
+          description: URL to generate quiz from
+        title:
+          type: string
+          title: Title
+          description: Title of the quiz session
+        numQuestions:
+          type: integer
+          title: Numquestions
+          description: Number of questions to generate
+          default: 5
+      type: object
+      required:
+      - contentId
+      - url
+      - title
+      title: CreateQuizSessionFromUrlDto
+    ContentPartDto:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: string
+          title: Id
+          description: Unique identifier for the content part
+        contentId:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: string
+          title: Contentid
+          description: ID of the content this part belongs to
+        pageNumber:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Pagenumber
+          description: Page number of the content part
+        pageId:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Pageid
+          description: Page ID of the content part
+        contentType:
+          $ref: '#/components/schemas/ContentType'
+          description: Type of the content
+        contentText:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Contenttext
+          description: Text of the content part
+      type: object
+      required:
+      - id
+      - contentId
+      - contentType
+      title: ContentPartDto
   securitySchemes:
     HTTPBearer:
       type: http
