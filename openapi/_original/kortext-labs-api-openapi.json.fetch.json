@@ -1,0 +1,12 @@
+{
+ "url": "https://api-demo.labs.kortext.com/openapi.json",
+ "requested_url": "https://api-demo.labs.kortext.com/openapi.json",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 84874,
+ "sha256": "ee8d69c35158a4fe1f7eeceb496254c3b81c7d5248624729e4f0e7b2d5b17290",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the archived file is byte-identical to what the provider serves."
+}
