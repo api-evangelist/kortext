@@ -15,3 +15,40 @@
   relationship: distribution-channel
   status: not-a-workflow
   arazzo: null
+- slug: kortext-edugain
+  label: eduGAIN
+  partner_name: eduGAIN
+  category: research and education identity federation
+  type: register
+  channel: standard-directory
+  evidence: https://technical.edugain.org/api.php?action=list_entities&type=sp&format=json
+  source: edge
+  relationship: network-participant
+  contract_reference:
+    network: eduGAIN (GÉANT interfederation)
+    spec_file: null
+    roles:
+    - service-provider
+    role: service-provider
+    federations:
+    - UK-FEDERATION
+    matched_by: domain:kortext.com
+    entities:
+    - entity_id: https://app.kortext.com/shibboleth
+      role: service-provider
+      federation: UK-FEDERATION
+      display_name: Kortext Limited
+      entity_categories: null
+      sirtfi: false
+      coco: true
+    - entity_id: https://app.qa.kortext.com/shibboleth
+      role: service-provider
+      federation: UK-FEDERATION
+      display_name: Kortext Limited
+      entity_categories: null
+      sirtfi: false
+      coco: true
+    detected_by: sweep-higher-ed.py
+    detected: '2026-10-15'
+  status: not-a-workflow
+  arazzo: null
