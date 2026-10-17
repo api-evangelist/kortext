@@ -209,32 +209,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    Body_create_podcast_podcast_v1_content__content_id__podcast_post:
-      properties:
-        title:
-          type: string
-          title: Title
-        voice1:
-          type: string
-          title: Voice1
-          default: Jenny
-        voice2:
-          type: string
-          title: Voice2
-          default: Guy
-      type: object
-      required:
-      - title
-      title: Body_create_podcast_podcast_v1_content__content_id__podcast_post
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     PaginatedPodcastResponse:
       properties:
         items:
@@ -268,27 +242,6 @@ components:
       - totalPages
       title: PaginatedPodcastResponse
       description: Paginated response for podcasts.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     PodcastResponseDto:
       properties:
         id:
@@ -334,6 +287,53 @@ components:
       - title
       title: PodcastResponseDto
       description: Schema for document response.
+    Body_create_podcast_podcast_v1_content__content_id__podcast_post:
+      properties:
+        title:
+          type: string
+          title: Title
+        voice1:
+          type: string
+          title: Voice1
+          default: Jenny
+        voice2:
+          type: string
+          title: Voice2
+          default: Guy
+      type: object
+      required:
+      - title
+      title: Body_create_podcast_podcast_v1_content__content_id__podcast_post
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     HTTPBearer:
       type: http

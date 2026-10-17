@@ -747,6 +747,119 @@ paths:
       - HTTPBearer: []
 components:
   schemas:
+    VisualisationResponse:
+      properties:
+        mermaidMarkdown:
+          type: string
+          title: Mermaidmarkdown
+          description: Generated Mermaid markdown diagram
+      type: object
+      required:
+      - mermaidMarkdown
+      title: VisualisationResponse
+    ContentConfidenceScoreDto:
+      properties:
+        contentId:
+          type: string
+          format: uuid
+          title: Contentid
+          description: Content ID this score is for
+        confidenceScore:
+          type: number
+          title: Confidencescore
+          description: Confidence score
+      type: object
+      required:
+      - contentId
+      - confidenceScore
+      title: ContentConfidenceScoreDto
+    WisdomIdDto:
+      properties:
+        wisdomId:
+          type: string
+          format: uuid
+          title: Wisdomid
+          description: Unique identifier for the wisdom
+        contentId:
+          type: string
+          format: uuid
+          title: Contentid
+          description: ID of the content this wisdom belongs to
+        contentTitle:
+          type: string
+          title: Contenttitle
+          description: Title of the content
+        createdAt:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Createdat
+          description: Timestamp when the wisdom was created
+      type: object
+      required:
+      - wisdomId
+      - contentId
+      - contentTitle
+      title: WisdomIdDto
+    IndexedFileDto:
+      properties:
+        contentId:
+          type: string
+          title: Contentid
+          description: Unique identifier for the content
+        format:
+          type: string
+          title: Format
+          description: Format of the file
+        title:
+          type: string
+          title: Title
+          description: Title of the file
+      type: object
+      required:
+      - contentId
+      - format
+      - title
+      title: IndexedFileDto
+    ContentProcessingStatusDTO:
+      properties:
+        status:
+          type: string
+          title: Status
+          description: Status of the content processing task
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+          description: Error message if the task failed
+        contentId:
+          type: string
+          title: Contentid
+          description: Unique identifier for the content
+        taskId:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Taskid
+          description: Unique identifier for the task
+        processedParts:
+          type: integer
+          title: Processedparts
+          description: Number of processed content parts
+        totalParts:
+          type: integer
+          title: Totalparts
+          description: Total number of content parts
+      type: object
+      required:
+      - status
+      - contentId
+      - processedParts
+      - totalParts
+      title: ContentProcessingStatusDTO
     KnowledgeItemDto:
       properties:
         id:
@@ -785,74 +898,6 @@ components:
       - contentPartId
       - contentId
       title: KnowledgeItemDto
-    ContentConfidenceScoreDto:
-      properties:
-        contentId:
-          type: string
-          format: uuid
-          title: Contentid
-          description: Content ID this score is for
-        confidenceScore:
-          type: number
-          title: Confidencescore
-          description: Confidence score
-      type: object
-      required:
-      - contentId
-      - confidenceScore
-      title: ContentConfidenceScoreDto
-    TaskStatusDto:
-      properties:
-        task_id:
-          type: string
-          title: Task Id
-          description: UUID of the task
-        content_id:
-          type: string
-          title: Content Id
-          description: UUID of the associated content
-        status:
-          type: string
-          title: Status
-          description: Current status of the task
-        createdAt:
-          type: string
-          format: date-time
-          title: Createdat
-          description: Timestamp of task creation
-        updatedAt:
-          type: string
-          format: date-time
-          title: Updatedat
-          description: Timestamp of last task update
-      type: object
-      required:
-      - task_id
-      - content_id
-      - status
-      - createdAt
-      - updatedAt
-      title: TaskStatusDto
-    VisualisationRequest:
-      properties:
-        content_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Content Id
-        type:
-          type: string
-          title: Type
-        prompt:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Prompt
-      type: object
-      required:
-      - type
-      title: VisualisationRequest
     QuizSessionStatsDto:
       properties:
         id:
@@ -950,45 +995,36 @@ components:
       - knowledgeItems
       - correctPercentage
       title: QuizSessionStatsDto
-    HTTPValidationError:
+    Body_chat_file_tutor_v1_content_chat_file_post:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    IndexedFileDto:
-      properties:
-        contentId:
+        file:
           type: string
-          title: Contentid
-          description: Unique identifier for the content
-        format:
-          type: string
-          title: Format
-          description: Format of the file
-        title:
-          type: string
-          title: Title
-          description: Title of the file
+          format: binary
+          title: File
       type: object
       required:
-      - contentId
-      - format
-      - title
-      title: IndexedFileDto
-    VisualisationResponse:
+      - file
+      title: Body_chat_file_tutor_v1_content_chat_file_post
+    VisualisationRequest:
       properties:
-        mermaidMarkdown:
+        content_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Content Id
+        type:
           type: string
-          title: Mermaidmarkdown
-          description: Generated Mermaid markdown diagram
+          title: Type
+        prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Prompt
       type: object
       required:
-      - mermaidMarkdown
-      title: VisualisationResponse
+      - type
+      title: VisualisationRequest
     WisdomDto:
       properties:
         id:
@@ -1022,15 +1058,6 @@ components:
       - wisdom
       - createdAt
       title: WisdomDto
-    TextRequest:
-      properties:
-        text:
-          type: string
-          title: Text
-      type: object
-      required:
-      - text
-      title: TextRequest
     ValidationError:
       properties:
         loc:
@@ -1052,45 +1079,56 @@ components:
       - msg
       - type
       title: ValidationError
-    Body_chat_file_tutor_v1_content_chat_file_post:
+    HTTPValidationError:
       properties:
-        file:
-          type: string
-          format: binary
-          title: File
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - file
-      title: Body_chat_file_tutor_v1_content_chat_file_post
-    WisdomIdDto:
+      title: HTTPValidationError
+    TaskStatusDto:
       properties:
-        wisdomId:
+        task_id:
           type: string
-          format: uuid
-          title: Wisdomid
-          description: Unique identifier for the wisdom
-        contentId:
+          title: Task Id
+          description: UUID of the task
+        content_id:
           type: string
-          format: uuid
-          title: Contentid
-          description: ID of the content this wisdom belongs to
-        contentTitle:
+          title: Content Id
+          description: UUID of the associated content
+        status:
           type: string
-          title: Contenttitle
-          description: Title of the content
+          title: Status
+          description: Current status of the task
         createdAt:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
+          type: string
+          format: date-time
           title: Createdat
-          description: Timestamp when the wisdom was created
+          description: Timestamp of task creation
+        updatedAt:
+          type: string
+          format: date-time
+          title: Updatedat
+          description: Timestamp of last task update
       type: object
       required:
-      - wisdomId
-      - contentId
-      - contentTitle
-      title: WisdomIdDto
+      - task_id
+      - content_id
+      - status
+      - createdAt
+      - updatedAt
+      title: TaskStatusDto
+    TextRequest:
+      properties:
+        text:
+          type: string
+          title: Text
+      type: object
+      required:
+      - text
+      title: TextRequest
     ContentQuizStatsDto:
       properties:
         contentId:
@@ -1159,44 +1197,6 @@ components:
       - totalContentKnowledgeItems
       - sessions
       title: ContentQuizStatsDto
-    ContentProcessingStatusDTO:
-      properties:
-        status:
-          type: string
-          title: Status
-          description: Status of the content processing task
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-          description: Error message if the task failed
-        contentId:
-          type: string
-          title: Contentid
-          description: Unique identifier for the content
-        taskId:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Taskid
-          description: Unique identifier for the task
-        processedParts:
-          type: integer
-          title: Processedparts
-          description: Number of processed content parts
-        totalParts:
-          type: integer
-          title: Totalparts
-          description: Total number of content parts
-      type: object
-      required:
-      - status
-      - contentId
-      - processedParts
-      - totalParts
-      title: ContentProcessingStatusDTO
   securitySchemes:
     HTTPBearer:
       type: http

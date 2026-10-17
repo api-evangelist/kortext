@@ -992,6 +992,128 @@ paths:
       - HTTPBearer: []
 components:
   schemas:
+    VisualisationResponse:
+      properties:
+        mermaidMarkdown:
+          type: string
+          title: Mermaidmarkdown
+          description: Generated Mermaid markdown diagram
+      type: object
+      required:
+      - mermaidMarkdown
+      title: VisualisationResponse
+    ContentConfidenceScoreDto:
+      properties:
+        contentId:
+          type: string
+          format: uuid
+          title: Contentid
+          description: Content ID this score is for
+        confidenceScore:
+          type: number
+          title: Confidencescore
+          description: Confidence score
+      type: object
+      required:
+      - contentId
+      - confidenceScore
+      title: ContentConfidenceScoreDto
+    WisdomIdDto:
+      properties:
+        wisdomId:
+          type: string
+          format: uuid
+          title: Wisdomid
+          description: Unique identifier for the wisdom
+        contentId:
+          type: string
+          format: uuid
+          title: Contentid
+          description: ID of the content this wisdom belongs to
+        contentTitle:
+          type: string
+          title: Contenttitle
+          description: Title of the content
+        createdAt:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Createdat
+          description: Timestamp when the wisdom was created
+      type: object
+      required:
+      - wisdomId
+      - contentId
+      - contentTitle
+      title: WisdomIdDto
+    IndexedFileDto:
+      properties:
+        contentId:
+          type: string
+          title: Contentid
+          description: Unique identifier for the content
+        format:
+          type: string
+          title: Format
+          description: Format of the file
+        title:
+          type: string
+          title: Title
+          description: Title of the file
+      type: object
+      required:
+      - contentId
+      - format
+      - title
+      title: IndexedFileDto
+    ContentProcessingStatusDTO:
+      properties:
+        status:
+          type: string
+          title: Status
+          description: Status of the content processing task
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+          description: Error message if the task failed
+        contentId:
+          type: string
+          title: Contentid
+          description: Unique identifier for the content
+        taskId:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Taskid
+          description: Unique identifier for the task
+        processedParts:
+          type: integer
+          title: Processedparts
+          description: Number of processed content parts
+        totalParts:
+          type: integer
+          title: Totalparts
+          description: Total number of content parts
+      type: object
+      required:
+      - status
+      - contentId
+      - processedParts
+      - totalParts
+      title: ContentProcessingStatusDTO
+    TextRequest:
+      properties:
+        text:
+          type: string
+          title: Text
+      type: object
+      required:
+      - text
+      title: TextRequest
     KnowledgeItemDto:
       properties:
         id:
@@ -1030,74 +1152,51 @@ components:
       - contentPartId
       - contentId
       title: KnowledgeItemDto
-    ContentConfidenceScoreDto:
+    ChatAllRequest:
       properties:
-        contentId:
-          type: string
-          format: uuid
-          title: Contentid
-          description: Content ID this score is for
-        confidenceScore:
-          type: number
-          title: Confidencescore
-          description: Confidence score
-      type: object
-      required:
-      - contentId
-      - confidenceScore
-      title: ContentConfidenceScoreDto
-    TaskStatusDto:
-      properties:
-        task_id:
-          type: string
-          title: Task Id
-          description: UUID of the task
-        content_id:
-          type: string
-          title: Content Id
-          description: UUID of the associated content
-        status:
-          type: string
-          title: Status
-          description: Current status of the task
-        createdAt:
-          type: string
-          format: date-time
-          title: Createdat
-          description: Timestamp of task creation
-        updatedAt:
-          type: string
-          format: date-time
-          title: Updatedat
-          description: Timestamp of last task update
-      type: object
-      required:
-      - task_id
-      - content_id
-      - status
-      - createdAt
-      - updatedAt
-      title: TaskStatusDto
-    VisualisationRequest:
-      properties:
-        content_id:
+        sessionId:
           anyOf:
+          - type: integer
           - type: string
             format: uuid
           - type: 'null'
-          title: Content Id
-        type:
+          title: Session ID
+          description: Session ID for the chat
+        message:
           type: string
-          title: Type
-        prompt:
+          maxLength: 300
+          minLength: 2
+          title: Message
+          description: Message or question
+        systemMessage:
           anyOf:
           - type: string
+            maxLength: 4000
           - type: 'null'
-          title: Prompt
+          title: System Message
+          description: System message
+        swirlSearch:
+          type: boolean
+          title: Swirl Search
+          description: Enable searching with Swirl
+          default: false
+        canvasCourseId:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Canvas Course ID
+          description: Canvas course ID
+        includeMyfiles:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: With MyFiles
+          description: Include user files to the response
+          default: false
       type: object
       required:
-      - type
-      title: VisualisationRequest
+      - message
+      title: ChatAllRequest
     QuizSessionStatsDto:
       properties:
         id:
@@ -1195,74 +1294,6 @@ components:
       - knowledgeItems
       - correctPercentage
       title: QuizSessionStatsDto
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    IndexedFileDto:
-      properties:
-        contentId:
-          type: string
-          title: Contentid
-          description: Unique identifier for the content
-        format:
-          type: string
-          title: Format
-          description: Format of the file
-        title:
-          type: string
-          title: Title
-          description: Title of the file
-      type: object
-      required:
-      - contentId
-      - format
-      - title
-      title: IndexedFileDto
-    WisdomIdDto:
-      properties:
-        wisdomId:
-          type: string
-          format: uuid
-          title: Wisdomid
-          description: Unique identifier for the wisdom
-        contentId:
-          type: string
-          format: uuid
-          title: Contentid
-          description: ID of the content this wisdom belongs to
-        contentTitle:
-          type: string
-          title: Contenttitle
-          description: Title of the content
-        createdAt:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Createdat
-          description: Timestamp when the wisdom was created
-      type: object
-      required:
-      - wisdomId
-      - contentId
-      - contentTitle
-      title: WisdomIdDto
-    VisualisationResponse:
-      properties:
-        mermaidMarkdown:
-          type: string
-          title: Mermaidmarkdown
-          description: Generated Mermaid markdown diagram
-      type: object
-      required:
-      - mermaidMarkdown
-      title: VisualisationResponse
     WisdomDto:
       properties:
         id:
@@ -1296,6 +1327,26 @@ components:
       - wisdom
       - createdAt
       title: WisdomDto
+    VisualisationRequest:
+      properties:
+        content_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Content Id
+        type:
+          type: string
+          title: Type
+        prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Prompt
+      type: object
+      required:
+      - type
+      title: VisualisationRequest
     ChatUserFilesRequest:
       properties:
         sessionId:
@@ -1337,98 +1388,47 @@ components:
       - msg
       - type
       title: ValidationError
-    ChatUploadedFileRequest:
+    HTTPValidationError:
       properties:
-        sessionId:
-          anyOf:
-          - type: integer
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Session ID
-          description: Session ID for the chat
-        message:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    TaskStatusDto:
+      properties:
+        task_id:
           type: string
-          maxLength: 300
-          minLength: 3
-          title: Message
-          description: Message or question
-        fileContent:
+          title: Task Id
+          description: UUID of the task
+        content_id:
           type: string
-          maxLength: 1000000
-          title: File Content
-          description: File content
-          default: ''
-        fileName:
+          title: Content Id
+          description: UUID of the associated content
+        status:
           type: string
-          maxLength: 100
-          title: File Name
-          description: File name
-          default: ''
-        fileContentType:
+          title: Status
+          description: Current status of the task
+        createdAt:
           type: string
-          maxLength: 100
-          title: File Content Type
-          description: File content type
-          default: ''
+          format: date-time
+          title: Createdat
+          description: Timestamp of task creation
+        updatedAt:
+          type: string
+          format: date-time
+          title: Updatedat
+          description: Timestamp of last task update
       type: object
       required:
-      - message
-      title: ChatUploadedFileRequest
-    ChatAllRequest:
-      properties:
-        sessionId:
-          anyOf:
-          - type: integer
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Session ID
-          description: Session ID for the chat
-        message:
-          type: string
-          maxLength: 300
-          minLength: 2
-          title: Message
-          description: Message or question
-        systemMessage:
-          anyOf:
-          - type: string
-            maxLength: 4000
-          - type: 'null'
-          title: System Message
-          description: System message
-        swirlSearch:
-          type: boolean
-          title: Swirl Search
-          description: Enable searching with Swirl
-          default: false
-        canvasCourseId:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Canvas Course ID
-          description: Canvas course ID
-        includeMyfiles:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: With MyFiles
-          description: Include user files to the response
-          default: false
-      type: object
-      required:
-      - message
-      title: ChatAllRequest
-    TextRequest:
-      properties:
-        text:
-          type: string
-          title: Text
-      type: object
-      required:
-      - text
-      title: TextRequest
+      - task_id
+      - content_id
+      - status
+      - createdAt
+      - updatedAt
+      title: TaskStatusDto
     Body_chat_file_chat_v1_content_chat_file_post:
       properties:
         file:
@@ -1507,44 +1507,44 @@ components:
       - totalContentKnowledgeItems
       - sessions
       title: ContentQuizStatsDto
-    ContentProcessingStatusDTO:
+    ChatUploadedFileRequest:
       properties:
-        status:
-          type: string
-          title: Status
-          description: Status of the content processing task
-        message:
+        sessionId:
           anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-          description: Error message if the task failed
-        contentId:
-          type: string
-          title: Contentid
-          description: Unique identifier for the content
-        taskId:
-          anyOf:
+          - type: integer
           - type: string
             format: uuid
           - type: 'null'
-          title: Taskid
-          description: Unique identifier for the task
-        processedParts:
-          type: integer
-          title: Processedparts
-          description: Number of processed content parts
-        totalParts:
-          type: integer
-          title: Totalparts
-          description: Total number of content parts
+          title: Session ID
+          description: Session ID for the chat
+        message:
+          type: string
+          maxLength: 300
+          minLength: 3
+          title: Message
+          description: Message or question
+        fileContent:
+          type: string
+          maxLength: 1000000
+          title: File Content
+          description: File content
+          default: ''
+        fileName:
+          type: string
+          maxLength: 100
+          title: File Name
+          description: File name
+          default: ''
+        fileContentType:
+          type: string
+          maxLength: 100
+          title: File Content Type
+          description: File content type
+          default: ''
       type: object
       required:
-      - status
-      - contentId
-      - processedParts
-      - totalParts
-      title: ContentProcessingStatusDTO
+      - message
+      title: ChatUploadedFileRequest
   securitySchemes:
     HTTPBearer:
       type: http
