@@ -64,5 +64,122 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Kortext is a company surfaced via the API Evangelist harvest backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.
-- https://www.nasdaqprivatemarket.com/
+Kortext is a UK-headquartered digital learning and student engagement company, founded in 2013 and led by CEO James Gray, that supplies etextbooks, course content, AI study tools and learning analytics to higher education institutions in the UK, US, Ireland, Australia and the Middle East. Its platform family covers content delivery and reading (Kortext study, read.kortext.com), the AI-assisted study layer (Kortext study+, Kortext IQ), teaching and reading-list tools (Kortext teach, KeyLinks), library acquisition workflows (Kortext acquire), engagement analytics (Kortext insights) and the unified Kortext fusion content and data layer. Publisher partners include Pearson, Wiley, McGraw Hill, Taylor & Francis, Oxford University Press and Palgrave, and in 2025 Follett Higher Education moved its North American ebook delivery onto Kortext. Institutional integration runs over 1EdTech LTI 1.1 and LTI 1.3 (including Deep Linking) into Blackboard, Moodle, Canvas and other VLEs, plus EDI and API integration with library management systems such as Ex Libris Alma. Kortext does not operate a public developer portal; its production APIs are authenticated and undocumented publicly, and the only openly published machine-readable contract is the OpenAPI 3.1 description of its AI "labs" study-tools API.
+
+**Areas:** Education · EdTech · Higher Education · Digital Textbooks · Learning Analytics · Artificial Intelligence · Content Delivery · LTI · Library · Student Engagement · Publishing
+
+## Kortext on APIs.io
+
+Everything profiled for Kortext is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/kortext/](https://apis.io/providers/kortext/)** — or go straight to one of the APIs or properties below.
+
+### APIs (10)
+
+- [Kortext VLE / LTI Integration API](https://apis.io/apis/kortext/kortext-vle-lti-integration-api/) — The institution-facing integration surface behind vle.kortext.com — 1EdTech LTI 1.1 launch and LTI 1.3 Deep Linking endpoints that place Kortext content and…
+- [Kortext Platform API](https://apis.io/apis/kortext/kortext-platform-api/) — The authenticated application API behind app.kortext.com serving the Kortext study reader and companion apps — identity, content, upload, cover, features,…
+- [Kortext Chat API](https://apis.io/apis/kortext/kortext-chat-api/) — The Chat API from Kortext — 31 operation(s) for chat.
+- [Kortext Content API](https://apis.io/apis/kortext/kortext-content-api/) — The Content API from Kortext — 20 operation(s) for content.
+- [Kortext Health Checks API](https://apis.io/apis/kortext/kortext-health-checks-api/) — The Health Checks API from Kortext — 2 operation(s) for health checks.
+- [Kortext Labs API](https://apis.io/apis/kortext/kortext-labs-api/) — The Labs API from Kortext — 1 operation(s) for labs.
+- [Kortext Podcast API](https://apis.io/apis/kortext/kortext-podcast-api/) — The Podcast API from Kortext — 3 operation(s) for podcast.
+- [Kortext Quiz API](https://apis.io/apis/kortext/kortext-quiz-api/) — The Quiz API from Kortext — 8 operation(s) for quiz.
+- [Kortext Reading List API](https://apis.io/apis/kortext/kortext-reading-list-api/) — The Reading List API from Kortext — 1 operation(s) for reading list.
+- [Kortext Test API](https://apis.io/apis/kortext/kortext-test-api/) — The Test API from Kortext — 2 operation(s) for test.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Kortext Labs Api Overlay](https://apis.io/overlays/kortext/kortext-labs-api-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Kortext Authentication](https://apis.io/security/kortext/kortext-authentication/)
+- [Kortext Domain Security](https://apis.io/security/kortext/kortext-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Kortext Plans Pricing](https://apis.io/plans/kortext/kortext-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Kortext Rate Limits](https://apis.io/rate-limits/kortext/kortext-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://kortext.com/)
+- [Documentation](https://api-demo.labs.kortext.com/docs)
+- [Getting started](https://kortext.com/blog/platform-updates/how-we-integrate-with-your-workflow/)
+- [API reference](https://api-demo.labs.kortext.com/redoc)
+- [Sign up](https://app.kortext.com/identity/signup)
+- [Support](https://uk.support.kortext.com/s/)
+- [Changelog](https://kortext.com/blog/platform-updates/)
+- [Blog](https://kortext.com/us/news/)
+- [Terms of service](https://kortext.com/us/website-terms-and-conditions/)
+- [Privacy policy](https://kortext.com/us/privacy-policy/)
+
+## API Evangelist rating
+
+**Kin Score 40.1** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 42.9 |
+| Contract governance | 18.2 |
+| Operational transparency | 15.8 |
+| Developer ergonomics | 58.9 |
+| Access clarity | 34.2 |
+
+**Agent readiness 29.4** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | yes |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | — |
+| Operation Distinctiveness | mostly |
+
+**Regulatory alignment 22.7** — Education & Research
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/kortext/](https://apis.io/providers/kortext/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Kortext: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/kortext/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
